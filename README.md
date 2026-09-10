@@ -56,27 +56,62 @@ Only `direction: inbound` messages get `score`, `tone` and `quote`.
 
 Transcripts are stored pre-split as turn records in the same `Message` shape, not as whole files: `kind: "transcript_turn"`, `thread_id` = the meeting id, plus `meeting: {title, date}` denormalised on each turn and `seq` for order. A client's turn is `direction: inbound`, ours is `outbound`, so the scorer filters transcripts exactly the way it filters email. The data lane generates each meeting as an array of turns in one Claude call; a readable transcript, if wanted for the demo, is rendered from the turns rather than stored twice.
 
+## Live URLs
+
+| What | URL | Notes |
+|---|---|---|
+| API | https://client-sentiment-radar.onrender.com | Render. Free tier sleeps; warm it before demoing. |
+| Dashboard (tunnel) | https://b383d7c8be98.ngrok.app | ngrok to the local static preview. Serves the page; data comes from the API above. |
+
+The tunnel forwards to the UI preview server, not the backend, so `/health` and
+`/radar` are not on it. That still works: the page probes its own origin for the
+API, does not find one, and falls back to the Render URL. To put both on one
+origin, point ngrok at the FastAPI port instead — it serves the dashboard at `/`
+and the API alongside it.
+
 ## Running it
 
-Backend (from the Basecamp venv, key in `.env`):
+Get an Anthropic key from the Base Camp key server (see above) and put it in
+`backend/.env` as `ANTHROPIC_API_KEY`.
 
 ```bash
+# backend — serves the API *and* the dashboard at /
 cd backend
 pip install -r requirements.txt
 uvicorn app:app --reload --port 8000
+# dashboard:  http://localhost:8000/
 # stub data:  http://localhost:8000/stub/radar
 # live:       http://localhost:8000/radar
 ```
 
-UI:
+The dashboard is a single static file (`ui/index.html`) with no build step — no
+npm, no bundler. FastAPI serves it at `/`. To preview it on its own instead:
 
 ```bash
-cd ui
-npm install
-npm run dev          # http://localhost:5173, reads VITE_API_BASE (default /stub)
+cd ui && python -m http.server 5173
+# then http://localhost:5173/?api=http://localhost:8000
 ```
 
-Plugin (stretch): scaffolded with `mcp-plugin-pattern` so the same MCP server loads in Claude Code and Cowork; points at the backend base URL.
+It picks its API in this order: an explicit `?api=...`, else the same origin when
+FastAPI is serving it, else the deployed Render URL. If live data is unreachable
+it falls back to `/stub/*` and labels itself `(stub)` rather than passing canned
+numbers off as real.
+
+Regenerate `data/` after the data lane pushes (see [Data lane guide](docs/Data-Lane-Guide.md)):
+
+```bash
+cd backend && python convert_data.py
+```
+
+Check nothing is broken — 31 contract checks against any deployment:
+
+```bash
+cd backend && python smoke_test.py https://client-sentiment-radar.onrender.com
+```
+
+Plugin: `.mcp.json` at the repo root loads the MCP server in Claude Code; set
+`RADAR_API_BASE` there to point it at a different backend. See
+[plugin/README.md](plugin/README.md).
 
 ## Demo (two minutes)
 
