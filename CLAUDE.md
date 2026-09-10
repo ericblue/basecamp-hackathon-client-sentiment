@@ -36,6 +36,7 @@ Message ids follow `E-14` (email) / `T-3` (transcript turn); every brief action 
 ```
 data/       synthetic engagement — emails/*.json, transcripts/*.json, engagement.json
 backend/    FastAPI + Anthropic SDK; scores, caches in memory, serves the contract
+            app.py owned by the backend lane; prompts.py (rubric, tone defs, brief prompt) owned by the agent lane
 ui/         Vite + React + TS single page; one API base-URL constant
 plugin/     MCP server (stretch) over the same backend
 ```
@@ -45,7 +46,8 @@ Transcripts are stored **pre-split as turn records**, one JSON array per meeting
 Two decisions that the code has to preserve:
 
 - **`GET /stub/*` mirrors every live endpoint with canned data.** It exists so the UI never blocks on the model or on the dataset. Build stubs before live handlers; keep the stub shapes byte-compatible with the live ones. The UI flips from stub to live by changing one base URL (`VITE_API_BASE`), not by editing components.
-- **State is process memory only.** Scoring results are cached in-process; there is no database, no auth, no persistence across restarts. That is deliberate (see the PRD's out-of-scope list), not a gap to fill.
+- **State is process memory only.** Scoring results are cached in-process; there is no database, no auth, no persistence across restarts. That is deliberate (see the PRD's out-of-scope list), not a gap to fill. On Render this means a spin-down or redeploy empties the cache and the next request rebuilds it — a demo-timing problem, not something to solve with a database.
+- **Nothing is scored at startup.** The backend deploys to Render, so boot has to bind a port fast enough to pass the health check. Scoring is lazy on first request or a background task; roughly twenty model calls during startup would fail the deploy. `/stub/*` answers instantly either way.
 
 Endpoints: `GET /timeline`, `GET /radar`, `POST /brief`, `POST /ingest`, `GET /stub/*`. CORS must be open for Vite's dev port.
 
@@ -55,7 +57,9 @@ Endpoints: `GET /timeline`, `GET /radar`, `POST /brief`, `POST /ingest`, `GET /s
 
 Sonnet with a JSON schema (structured output) for scoring — one call per client message at startup (~20, cached), one per ingest, one per brief. Low effort on scoring; Haiku is an acceptable swap for scoring if latency bites, but the brief stays on Sonnet. Prompt-cache the engagement context used by the brief.
 
-Runs from the Basecamp venv with the existing Anthropic key in `backend/.env`.
+The rubric, tone definitions and brief prompt live in `backend/prompts.py` and belong to the agent lane — import from it, do not edit it.
+
+The Anthropic key comes from the Base Camp key server (https://basecamp-key-server.onrender.com/, group name and email) and is read as `ANTHROPIC_API_KEY` from the environment: `backend/.env` when running from the Basecamp venv locally, Render's environment variables in the deployed service. It never goes in git — `.gitignore` must cover `.env`, `venv/`, `__pycache__/` and `node_modules/` before the first code commit.
 
 ## Commands
 
@@ -77,7 +81,8 @@ Plugin scaffolding uses the `mcp-plugin-pattern` generator (`make new NAME=clien
 ## Working conventions for this repo
 
 - **Cut, don't chase.** Anything not demoing by minute 45 gets removed from the demo path. The plugin is the first thing to cut; ingest is second.
-- One branch per lane, merged at the handoff minutes (10 / 30 / 40).
+- One branch per lane, merged at the handoff minutes (10 / 30 / 40). Lanes: `lane-data` (Mike), `lane-backend` (Eric), `lane-ui` (Aditya), `lane-agent` (Alex).
+- Deploy early: the stub goes to Render at minute 10, so the deployment is proven while it is still trivial rather than discovered broken at minute 40.
 - Six plugin tools are specified in `docs/Plugin-Use-Cases.md` (`radar_status`, `radar_contact`, `radar_search`, `radar_brief`, `radar_ingest`, `radar_diff`) — that doc also fixes the refusal behaviors: never score our own messages, never emit a tone label without the quote behind it, always stamp answers with the last-scan timestamp.
 - The demo is one engagement, one arc, one live ingest. Don't add a second scenario.
 
