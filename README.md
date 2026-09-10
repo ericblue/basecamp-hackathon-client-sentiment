@@ -16,6 +16,7 @@ Account leads find out a client is unhappy late, when it reaches an escalation e
 |---|---|
 | [PRD and tech spec](docs/PRD-and-Tech-Spec.md) | Problem, scope rule, MVP capabilities, demo, architecture, the data contract everyone builds against, model use, risks |
 | [Workstreams](docs/Workstreams.md) | The hour split into four lanes (data, backend, UI, routine and demo) with a shared clock and handoff minutes |
+| [Data lane guide](docs/Data-Lane-Guide.md) | How to change the dataset without breaking the backend: the converter, the field mapping, and the three things that silently break it |
 | [Plugin use cases](docs/Plugin-Use-Cases.md) | The six plugin tools and ten question-and-answer examples, plus what the plugin refuses to do |
 | [Architecture](docs/architecture.png) | End to end: sources, data repo, backend, the always-on routine and alert, the UI and plugin. v0.1, to be updated with what was built |
 | [Mockup: dashboard](docs/mockup-1-dashboard.png) | The single-page radar UI |
