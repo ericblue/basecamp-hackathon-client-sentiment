@@ -1,0 +1,182 @@
+[
+  {
+    "id": "beacon-email-2026-06-18",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-06-18",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Kickoff alignment",
+    "body": "Good kickoff session, appreciated how clearly you laid out the compliance mapping approach. Feels like we're starting from a strong foundation.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-06-25",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-06-25",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Early policy draft feedback",
+    "body": "First look at the draft policy framework, directionally this is right. A few of my analysts will send line-level comments but nothing structural.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-07-09",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-07-09",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Policy framework doc - excellent work",
+    "body": "This is exactly what we needed. Clear, well-organized, and it maps cleanly to our compliance requirements. My legal team had almost no comments, which never happens.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-07-16",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-07-16",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Data classification workshop",
+    "body": "Thanks for running the classification workshop yesterday, my team walked away with a much clearer sense of how the tiers should apply to our datasets.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-07-25",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-07-25",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Thank you for the fast turnaround",
+    "body": "I know I sent that data lineage question late on a Friday and didn't expect an answer until Monday. Getting a thorough response Saturday morning was above and beyond. Really appreciate the responsiveness.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-08-01",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-08-01",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Access control review",
+    "body": "Reviewed the access control recommendations, no pushback from our side. Straightforward and well justified.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-08-08",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-08-08",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Quick compliance mapping question",
+    "body": "One of our vendors asked how their certification maps to our new framework. Could your team help translate that for us this week? Not urgent.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-08-15",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-08-15",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Steering committee feedback",
+    "body": "Wanted to pass along that our CDO specifically called out this workstream as the model for how the other governance tracks should run. Well deserved, thank you.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-08-22",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-08-22",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Audit prep update",
+    "body": "Appreciate you getting ahead of the external audit prep before we even asked. That kind of foresight is exactly why this workstream runs so smoothly.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "beacon-email-2026-08-29",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "beacon",
+    "kind": "email",
+    "date": "2026-08-29",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "priya-nair",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Looking ahead to Q4 scope",
+    "body": "Given how well this has gone, I'd like to start scoping additional Q4 governance work with your team. Can we find time in the next two weeks?",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  }
+]

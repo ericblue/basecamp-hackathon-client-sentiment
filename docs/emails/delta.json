@@ -1,0 +1,208 @@
+[
+  {
+    "id": "delta-email-2026-07-01",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-07-01",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Kickoff expectations",
+    "body": "Good to get started, though I'll be upfront that leadership is watching this one closely given how the legacy system has burned us before with other vendors. Let's start strong.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "delta-email-2026-07-08",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-07-08",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Missed integration test window",
+    "body": "This is the third missed test window this month. Each time it pushes our downstream teams' schedules. I need to understand what is actually going wrong here, not just that there was 'an unexpected issue.'",
+    "related_risk_ids": [
+      "R-DELTA-01"
+    ],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "delta-email-2026-07-15",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-07-15",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Second follow-up on test windows",
+    "body": "Another missed window this week. I raised this seven days ago and nothing has visibly changed. I need a real explanation, not a repeat apology.",
+    "related_risk_ids": [
+      "R-DELTA-01"
+    ],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "delta-email-2026-07-22",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-07-22",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Unacceptable",
+    "body": "I found out from my own team that the API mapping was wrong, not from your team, even though this has apparently been known for a week. I should not be the last to know about problems on my own program.",
+    "related_risk_ids": [
+      "R-DELTA-02"
+    ],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "delta-email-2026-07-29",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-07-29",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "RE: escalation call recap",
+    "body": "Thanks for the call today. To be clear, I'm holding your team to the root cause analysis you committed to delivering today. I'll be tracking this closely.",
+    "related_risk_ids": [
+      "R-DELTA-02"
+    ],
+    "related_deadline_ids": [
+      "D-DELTA-01"
+    ]
+  },
+  {
+    "id": "delta-email-2026-08-05",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-08-05",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Escalating to your engagement partner",
+    "body": "I've asked for a root cause analysis twice and haven't received one. I'm looping in your engagement partner because I no longer feel confident this workstream will self-correct without leadership involvement on your side.",
+    "related_risk_ids": [
+      "R-DELTA-02"
+    ],
+    "related_deadline_ids": [
+      "D-DELTA-01"
+    ]
+  },
+  {
+    "id": "delta-email-2026-08-12",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-08-12",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Still waiting on the RCA",
+    "body": "It has now been over a week since your engagement partner committed to a root cause analysis. I have still not received it. This is exactly the pattern I raised on the escalation call.",
+    "related_risk_ids": [
+      "R-DELTA-02"
+    ],
+    "related_deadline_ids": [
+      "D-DELTA-01"
+    ]
+  },
+  {
+    "id": "delta-email-2026-08-19",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-08-19",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Trust concerns ahead of QBR prep",
+    "body": "Ahead of next week's QBR, I want to be direct that trust with this workstream is very low right now. I intend to raise the full history in that session unless something changes materially before then.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "delta-email-2026-08-24",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-08-24",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Formal concerns ahead of QBR",
+    "body": "Ahead of the QBR I want it on record that this workstream has not met a milestone on time since May. We are evaluating whether this scope should be restructured or reassigned. Please come prepared to discuss both options.",
+    "related_risk_ids": [
+      "R-DELTA-03"
+    ],
+    "related_deadline_ids": [
+      "D-DELTA-02"
+    ]
+  },
+  {
+    "id": "delta-email-2026-09-02",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "delta",
+    "kind": "email",
+    "date": "2026-09-02",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "elena-vasquez",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "QBR outcome and next steps",
+    "body": "Following the QBR, I want to be transparent: our leadership is now formally evaluating whether to move this workstream to a different vendor. The revised plan you presented was a reasonable start, but it will take sustained delivery, not another slide, to change that trajectory.",
+    "related_risk_ids": [
+      "R-DELTA-04"
+    ],
+    "related_deadline_ids": [
+      "D-DELTA-02"
+    ]
+  }
+]
