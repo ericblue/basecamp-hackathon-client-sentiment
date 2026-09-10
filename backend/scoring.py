@@ -135,7 +135,7 @@ def runs() -> list[RunRecord]:
         return list(reversed(_runs))
 
 
-def score_message(m: Message, ref_ids: list[str]) -> ScoreResult | None:
+def score_message(m: Message, ref_context: list[str]) -> ScoreResult | None:
     """Score one message. Returns None for outbound — that is the one rule."""
     if m.direction != "inbound":
         return None
@@ -145,8 +145,10 @@ def score_message(m: Message, ref_ids: list[str]) -> ScoreResult | None:
         return cached
 
     system = prompts.SCORING_SYSTEM
-    if ref_ids:
-        system += "\n\nDeadline and risk ids you may cite in refs: " + ", ".join(ref_ids)
+    if ref_context:
+        # Bare ids give the model nothing to match against the message text —
+        # it needs the title to recognize "the churn model" means R-CASCADE-01.
+        system += "\n\nDeadlines and risks you may cite in refs (id: title):\n" + "\n".join(ref_context)
 
     resp = client().messages.parse(
         model=SCORING_MODEL,
@@ -171,12 +173,15 @@ def scored_timeline() -> tuple[Engagement, list[Message]]:
     global _last_scan
     engagement = load_engagement()
     messages = load_messages() + list(_extra)
-    ref_ids = [d.id for d in engagement.deadlines] + [r.id for r in engagement.risks]
+    ref_context = (
+        [f"{d.id}: {d.title}" for d in engagement.deadlines]
+        + [f"{r.id}: {r.title}" for r in engagement.risks]
+    )
 
     for m in messages:
         if m.direction != "inbound":
             continue
-        result = score_message(m, ref_ids)
+        result = score_message(m, ref_context)
         if result:
             m.score, m.tone, m.quote, m.refs = (
                 result.score, result.tone, result.quote, result.refs

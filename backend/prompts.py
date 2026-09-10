@@ -27,7 +27,9 @@ message, that most drove your score. Never paraphrase, never invent, never \
 quote our words back. If nothing carries sentiment, quote the most \
 substantive sentence and score near 0.
 - refs: ids of any deadline or risk from the engagement context that this \
-message refers to. Empty list if none. Only use ids you were given.
+message refers to. You will be given each candidate as "id: title" — match on \
+the title's meaning against the message text, but cite only the id, never \
+the title. Empty list if none. Only use ids you were given.
 
 Tone definitions, which are about escalation posture, not politeness:
 
