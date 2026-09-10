@@ -16,7 +16,7 @@ Do not put code or long text here. If it needs to be typed, it goes in the repo.
 
 ## Chat: WhatsApp group
 
-Group name: Sentiment Radar hackathon. Eric creates it and adds everyone by number at the table. Use it for:
+Group name: Sentiment Radar hackathon. Eric's WhatsApp: +1 310 699 9664 (or https://wa.me/13106999664). Message Eric there and he will add you to the group, or scan the group QR off his screen at the table. Use it for:
 
 - handoff pings at the clock minutes (10, 30, 40, 50): "stub endpoints live", "dataset final", "UI on live API"
 - contract changes, one line with the reason, only before minute 30
