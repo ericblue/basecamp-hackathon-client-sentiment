@@ -10,7 +10,7 @@ This is a 60-minute hackathon build (Anthropic Partner Base Camp, San Francisco,
 
 ## The one rule that shapes everything
 
-**Sentiment is scored only on what the client says.** Inbound emails and client speaker turns in transcripts get `score`, `tone`, and `quote`. Outbound (our own) messages are read for context in the brief but never carry a score — the UI greys them, the plugin refuses to score them. Any code that scores an outbound message is a bug, not a feature.
+**Sentiment is scored only on what the client says.** `direction: "inbound"` messages get `score`, `tone`, and `quote` — that is the whole test, and it applies identically to emails and to transcript turns. Outbound (our own) messages are read for context in the brief but never carry a score — the UI greys them, the plugin refuses to score them. Any code that scores an outbound message is a bug, not a feature.
 
 ## Data contract (frozen)
 
@@ -19,6 +19,8 @@ All four lanes build against these shapes. Changing them mid-build breaks three 
 ```
 Message   { id, thread_id, kind: "email"|"transcript_turn", direction: "inbound"|"outbound",
             contact{name,role,org}, date, subject?, text,
+            meeting?: {title, date},  // transcript_turn only, denormalised on each turn
+            seq?: number,             // transcript_turn only, order within the meeting
             score?: number (-1..1), tone?: positive|neutral|concerned|frustrated|escalating,
             quote?: string, refs?: string[] }   // refs are engagement.json risk/deadline ids
 Engagement{ client, project, contacts[], deadlines[{id,title,due,status}], risks[{id,title,severity}] }
@@ -32,11 +34,13 @@ Message ids follow `E-14` (email) / `T-3` (transcript turn); every brief action 
 ## Architecture
 
 ```
-data/       synthetic engagement — emails/*.json, transcripts/*.md, engagement.json
+data/       synthetic engagement — emails/*.json, transcripts/*.json, engagement.json
 backend/    FastAPI + Anthropic SDK; scores, caches in memory, serves the contract
 ui/         Vite + React + TS single page; one API base-URL constant
 plugin/     MCP server (stretch) over the same backend
 ```
+
+Transcripts are stored **pre-split as turn records**, one JSON array per meeting — not as prose files. Each turn is a `Message` (`kind: "transcript_turn"`, `thread_id` = the meeting id, `meeting` and `seq` set), a client's turn `inbound` and ours `outbound`. The scorer therefore has one input type and no parsing step; a readable transcript, if the demo wants one, is rendered from the turns rather than stored twice.
 
 Two decisions that the code has to preserve:
 
