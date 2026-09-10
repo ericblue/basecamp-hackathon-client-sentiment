@@ -18,9 +18,10 @@ Primary user: the engagement or account lead, Monday morning, before the weekly 
 2. Score each client message (inbound email or a client's turn in a transcript): sentiment score (-1 to 1), tone label (positive, neutral, concerned, frustrated, escalating), the one quote that drove the score, and any deadline or risk it references.
 3. Roll up: trend over time, temperature per client contact, risks and deadlines with the messages that mention them.
 4. Brief: one paragraph of "what the account lead should know" plus three recommended actions, each citing the messages behind it.
-5. Live ingest: drop in a new message and watch the radar move (the always-on story).
+5. Live ingest: drop in a new message and watch the radar move.
+6. Always-on scan (essential, not stretch): a Claude Routine that runs on a schedule with nobody asking, pulls anything new, scores it, and reaches out when something moved. See section 5a. Without this the project is a query tool; with it, it is the track.
 
-Stretch, only if the MVP is demoing by minute 45: a scheduled run that posts the brief to Slack; a plugin surface so the same radar can be asked questions from Claude Code and Cowork.
+Stretch, only if the MVP is demoing by minute 45: a plugin surface so the same radar can be asked questions from Claude Code and Cowork.
 
 ## 4. Demo (two minutes)
 
@@ -28,7 +29,7 @@ Open on the radar for one fictional engagement over six weeks: warm early, a dip
 
 ## 5. Architecture
 
-Three parts, each buildable alone against a fixed contract.
+Four parts, each buildable alone against a fixed contract: the data repo, the backend, the UI, and the always-on routine (section 5a). The plugin is a stretch on top.
 
 Data repo. A folder (pushed to a GitHub repo so it matches the Track 1 pattern): `emails/*.json`, `transcripts/*.json`, `engagement.json`. Synthetic, one fictional client, one engagement, a deliberate tone arc. Transcripts are stored pre-split as turn records in the same `Message` shape as emails (one JSON array per meeting), not as prose files. This keeps the scorer to one input type, makes "client words only" a filter on `direction` rather than a parsing job, and gives the UI nothing new to render: a turn is an email row with a meeting title where the subject would be.
 
@@ -43,6 +44,26 @@ Backend. Python, FastAPI, Anthropic SDK, running from the Basecamp venv with the
 UI. Single page, Vite plus React plus TypeScript (Eric's standard scaffold), four components: trend line with meeting and deadline markers, contact grid, message feed with tone chips and quotes, brief panel. Reads the stub first, flips to live by changing one base URL.
 
 Plugin (stretch). An MCP server exposing `radar_status`, `radar_brief`, and `radar_ingest` as tools over the same backend, packaged so it loads in both Claude Code and Cowork. Use the `mcp-plugin-pattern` scaffold (`make new NAME=client-sentiment-radar`) rather than a hand layout.
+
+## 5a. The always-on half: a Claude Routine
+
+The UI and the plugin are reactive: they answer when a person asks. The always-on track requires a trigger nobody presses. That trigger is a Claude Routine (a scheduled task) rather than a poll loop inside the backend, because the routine is the production shape (it is what the Track 1 README means by "point your routine at this repo") and because it demonstrates the pattern the room was taught.
+
+What the routine does on each run:
+
+1. Pull: read the engagement data source for anything new since the last run (for the hackathon, the `data/` folder in the GitHub repo; in production, the shared mailbox and transcript store).
+2. Score: call `POST /ingest` for each new client message, so scoring logic lives in one place.
+3. Compare: call `GET /radar` and diff against the last run.
+4. Reach out: if any contact crossed into escalating, or the weekly average fell by more than 0.3, post an alert with the driving quote and the message ids. Otherwise, on the daily run, post the Monday-style brief from `POST /brief`.
+5. Record: write a one-line run log (time, new messages, alerts fired) so the UI can show "last scan 07:02, next 08:00".
+
+Where it posts: Slack channel `#northwind-account` if a webhook is available; otherwise a `alerts.json` in the repo that the UI renders as a banner. Either is fine for the demo; the point is that the message appears without a click.
+
+Schedule: hourly during the demo window (or fire it manually once on stage), daily at 07:00 in the production story.
+
+Reachability, the one gotcha: a cloud-hosted routine cannot call `localhost:8000`. Two options, pick one at the table: (a) expose the backend through a tunnel (`cloudflared tunnel --url http://localhost:8000` or ngrok) and give the routine that URL; (b) run the routine as a local scheduled task on Eric's Mac, where localhost is reachable. Option (a) is cleaner for the demo because the routine then looks exactly like production.
+
+Demo moment: commit one new escalating email to `data/emails/` from a second laptop, fire the routine, and let the alert land in Slack (or the banner appear) while nobody touches the dashboard. Then open the dashboard and show the line already moved.
 
 ## 6. Data contract (the thing everyone builds against)
 
@@ -83,5 +104,6 @@ Real mailbox or calendar integration, authentication, persistence beyond process
 
 - Time: the UI is the long pole; it must start against the stub at minute 10, not against the live API.
 - Scoring quality: a single prompt with a clear rubric and two examples is enough for a demo; do not iterate the rubric past minute 35.
-- Plugin: only if the demo is safe; it is the first thing to cut.
+- Plugin: only if the demo is safe; it is the first thing to cut. The routine is not cuttable; if time is short, fire it by hand on stage rather than on a schedule, but it must exist.
+- Routine reachability: decide tunnel versus local scheduled task by minute 15; a routine that cannot reach the backend is the most likely demo failure.
 - No shared repo: create one in the first five minutes and put the contract in its README.

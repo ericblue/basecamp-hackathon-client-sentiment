@@ -1,0 +1,6 @@
+[
+  {"id": "E-21", "thread_id": "TH-3", "kind": "email", "direction": "inbound",
+   "contact": {"name": "Dana Whitfield", "role": "CFO", "org": "Northwind Retail"},
+   "date": "2026-05-26", "subject": "Escalation",
+   "text": "I am copying our General Counsel on this thread. Before Thursday I want the contractual position in writing, and I want to understand what remedies are available to us if June 15 slips as well."}
+]

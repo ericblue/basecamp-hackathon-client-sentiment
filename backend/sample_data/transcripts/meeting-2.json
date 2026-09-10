@@ -1,0 +1,7 @@
+[
+  {"id": "T-3", "thread_id": "M-2", "kind": "transcript_turn", "direction": "inbound",
+   "contact": {"name": "Marcus Reyes", "role": "Program Director", "org": "Northwind Retail"},
+   "date": "2026-05-07", "seq": 3,
+   "meeting": {"title": "Weekly status call", "date": "2026-05-07"},
+   "text": "I want to flag that we are three weeks out and my team still has not seen a cutover runbook. I am not raising an alarm yet, but I would like a date."}
+]

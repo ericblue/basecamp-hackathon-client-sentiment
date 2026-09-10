@@ -2,7 +2,7 @@
 
 An always-on agent that reads a client's own words across an engagement (emails, meeting transcripts) and shows the account lead where the temperature is, where it is heading, and which deadlines and risks it is tied to. Built in 60 minutes at the Anthropic Partner Base Camp Agent Hackathon, San Francisco, September 10, 2026.
 
-Track: Always-on agent. Team: Eric Blue (Andela, backend) with three Deloitte developers (data, UI, demo).
+Track: Always-on agent. Team: Eric Blue (Andela, backend) with three Deloitte developers (data, UI, routine and demo).
 
 ![Radar dashboard](docs/mockup-1-dashboard.png)
 
@@ -15,12 +15,16 @@ Account leads find out a client is unhappy late, when it reaches an escalation e
 | Doc | What it is |
 |---|---|
 | [PRD and tech spec](docs/PRD-and-Tech-Spec.md) | Problem, scope rule, MVP capabilities, demo, architecture, the data contract everyone builds against, model use, risks |
-| [Workstreams](docs/Workstreams.md) | The hour split into four lanes (data, backend, UI, demo and plugin) with a shared clock and handoff minutes |
+| [Workstreams](docs/Workstreams.md) | The hour split into four lanes (data, backend, UI, routine and demo) with a shared clock and handoff minutes |
+| [Data lane guide](docs/Data-Lane-Guide.md) | How to change the dataset without breaking the backend: the converter, the field mapping, and the three things that silently break it |
 | [Plugin use cases](docs/Plugin-Use-Cases.md) | The six plugin tools and ten question-and-answer examples, plus what the plugin refuses to do |
+| [Architecture](docs/architecture.png) | End to end: sources, data repo, backend, the always-on routine and alert, the UI and plugin. v0.1, to be updated with what was built |
 | [Mockup: dashboard](docs/mockup-1-dashboard.png) | The single-page radar UI |
 | [Mockup: plugin](docs/mockup-2-plugin.png) | The same intelligence asked from Claude Code and Cowork |
 
 ## Architecture
+
+![Architecture](docs/architecture.png)
 
 ```
 data/                      synthetic engagement: emails/*.json, transcripts/*.json (turn records), engagement.json
@@ -28,9 +32,12 @@ backend/  (FastAPI)        scores client messages with Claude (structured output
                            GET /timeline  GET /radar  POST /brief  POST /ingest  GET /stub/*
 ui/       (Vite+React+TS)  trend line, contact grid, message feed, brief panel; one base URL
 plugin/   (MCP, stretch)   radar_status, radar_contact, radar_search, radar_brief, radar_ingest, radar_diff
+routine/                   the always-on half: a Claude Routine that on a schedule pulls new messages from data/,
+                           calls POST /ingest, diffs GET /radar, and posts an alert (Slack or alerts.json)
+                           when a contact turns escalating or the weekly average drops. Essential, not stretch.
 ```
 
-The scheduled scan (a Claude routine or a cron hitting `POST /ingest` for anything new in `data/`) is the unattended half. The plugin is the on-demand half. Neither needs a person to remember to run it.
+The routine is the unattended half; the UI and plugin are the on-demand half. The backend is reached from the routine through a tunnel (`cloudflared tunnel --url http://localhost:8000`) during the hackathon. See the PRD, section 5a.
 
 ## Data contract
 
@@ -78,7 +85,8 @@ Plugin (stretch): scaffolded with `mcp-plugin-pattern` so the same MCP server lo
 3. Press Brief me, read the three cited actions.
 4. Paste in a new escalating email, watch the line drop and the brief change.
 5. Switch to Claude Code: "How is the Northwind account feeling this week?"
-6. Close: this runs on a schedule against the shared mailbox and posts to Slack every morning.
+6. From a second laptop, commit one new escalating email to `data/emails/` and fire the routine. The alert lands in Slack (or the banner appears) with nobody touching the dashboard; open the dashboard and the line has already moved.
+7. Close: in production this runs every morning against the shared mailbox.
 
 ## Status
 

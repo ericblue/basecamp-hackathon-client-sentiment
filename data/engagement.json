@@ -1,0 +1,83 @@
+{
+  "client": "Meridian Holdings",
+  "project": "Meridian Holdings \u2014 Multi-Workstream Advisory Engagement",
+  "contacts": [
+    {
+      "name": "David Okafor",
+      "role": "IT Director",
+      "org": "Meridian Holdings"
+    },
+    {
+      "name": "Priya Nair",
+      "role": "Data Governance Lead",
+      "org": "Meridian Holdings"
+    },
+    {
+      "name": "Marcus Webb",
+      "role": "Analytics Manager",
+      "org": "Meridian Holdings"
+    },
+    {
+      "name": "Elena Vasquez",
+      "role": "Program Sponsor",
+      "org": "Meridian Holdings"
+    }
+  ],
+  "deadlines": [
+    {
+      "id": "D-CASCADE-01",
+      "title": "Deliver a concrete recovery plan with named owners and dates",
+      "due": "2026-08-31",
+      "status": "met"
+    },
+    {
+      "id": "D-DELTA-01",
+      "title": "Provide a root cause analysis to the client",
+      "due": "2026-07-29",
+      "status": "met"
+    },
+    {
+      "id": "D-DELTA-02",
+      "title": "Present a revised plan and restructuring options at the QBR",
+      "due": "2026-08-31",
+      "status": "met"
+    }
+  ],
+  "risks": [
+    {
+      "id": "R-CASCADE-01",
+      "title": "Churn model missing updated segments agreed 3 weeks earlier",
+      "severity": "open"
+    },
+    {
+      "id": "R-CASCADE-02",
+      "title": "Delivery now two sprints behind the original plan",
+      "severity": "open"
+    },
+    {
+      "id": "R-CASCADE-03",
+      "title": "Client skepticism remains despite delivered recovery plan; watching for sustained delivery",
+      "severity": "open"
+    },
+    {
+      "id": "R-DELTA-01",
+      "title": "Repeated missed integration test windows",
+      "severity": "open"
+    },
+    {
+      "id": "R-DELTA-02",
+      "title": "API mapping defect known internally but not proactively disclosed to client",
+      "severity": "open"
+    },
+    {
+      "id": "R-DELTA-03",
+      "title": "No milestone delivered on time since May; client evaluating restructuring scope",
+      "severity": "escalated"
+    },
+    {
+      "id": "R-DELTA-04",
+      "title": "Client leadership evaluating whether to replace the vendor on this workstream",
+      "severity": "escalated"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "atlas-email-2026-06-15",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-06-15",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Kickoff logistics",
+    "body": "Thanks for pulling the kickoff plan together so quickly, it looks solid. My team is aligned on the schedule and we're ready to start Monday.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-06-29",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-06-29",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Sprint 1 check-in",
+    "body": "Quick note to say the first sprint update looked clean. No blockers on our side, and the early wins on the network layer are encouraging.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-07-06",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-07-06",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Great progress on the migration cutover",
+    "body": "Team, wanted to say thank you for the weekend cutover work. Zero downtime and the dashboards you sent this morning made the exec readout easy. This is exactly the kind of execution we hoped for when we kicked this off.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-07-13",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-07-13",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Documentation feedback",
+    "body": "Read through the runbook documentation this week, genuinely some of the clearest vendor docs I've seen. Passing it along as a model for our other IT projects.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-07-20",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-07-20",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "RE: Phase 2 kickoff materials",
+    "body": "These look great, no changes needed from my side. Appreciate you building in the extra buffer for UAT, that shows you're thinking ahead. Looking forward to Thursday's session.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-07-27",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-07-27",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Security review passed",
+    "body": "Heard back from our security team, the Phase 2 architecture passed review with zero findings. That almost never happens on the first pass, nice work.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-08-03",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-08-03",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Cost savings update",
+    "body": "Finance flagged that we're already tracking ahead of the projected infrastructure cost savings for this quarter. Wanted you to know that's landing well internally.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-08-10",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-08-10",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Board update went well",
+    "body": "Just a quick note, the board update went really well and your team's slides were a big part of that. I mentioned to my boss that this has been one of the smoothest vendor engagements we've run. Keep it up.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-08-17",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-08-17",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Quick question on backup schedule",
+    "body": "Small question, not a concern, just want to confirm the backup window won't overlap with our month-end batch jobs. Let me know if we need to adjust anything.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  },
+  {
+    "id": "atlas-email-2026-08-28",
+    "engagement_id": "meridian-holdings-2026",
+    "workstream_id": "atlas",
+    "kind": "email",
+    "date": "2026-08-28",
+    "meeting_id": null,
+    "sequence": null,
+    "direction": "client",
+    "contact_id": "david-okafor",
+    "to_contact_ids": [
+      "engagement-team"
+    ],
+    "subject": "Renewal conversation",
+    "body": "Given how Phase 1 and 2 have gone, I want to start a conversation about extending the SOW into Phase 3 ahead of schedule. Let's find time next week.",
+    "related_risk_ids": [],
+    "related_deadline_ids": []
+  }
+]

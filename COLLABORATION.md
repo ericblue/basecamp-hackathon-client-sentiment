@@ -28,8 +28,10 @@ Repo: `basecamp-hackathon-client-sentiment` (Eric's account; collaborators added
 
 - `README.md` carries the contract; it is the thing every lane builds against
 - `docs/` has the PRD, the workstreams, the plugin use cases and the two mockups
-- one branch per lane (`lane-data`, `lane-backend`, `lane-ui`, `lane-demo`), merge to `main` at the handoff minutes
+- one branch per lane (`lane-data` Mike, `lane-backend` Eric, `lane-ui` Aditya, `lane-agent` Alex), merge to `main` at the handoff minutes
 - one issue per lane, so handoff notes and known gaps have a place to land
+- lanes backend and agent share `backend/`: Alex owns `prompts.py`, Eric owns everything else in it
+- the Anthropic key comes from https://basecamp-key-server.onrender.com/ and never lands in the repo; `.env` is gitignored
 
 ## The clock
 
