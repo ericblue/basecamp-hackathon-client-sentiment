@@ -1,0 +1,212 @@
+[
+  {
+    "id": "E-1",
+    "thread_id": "TH-atlas",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "David Okafor",
+      "role": "IT Director",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-06",
+    "subject": "Great progress on the migration cutover",
+    "text": "Team, wanted to say thank you for the weekend cutover work. Zero downtime and the dashboards you sent this morning made the exec readout easy. This is exactly the kind of execution we hoped for when we kicked this off."
+  },
+  {
+    "id": "E-2",
+    "thread_id": "TH-atlas",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "David Okafor",
+      "role": "IT Director",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-20",
+    "subject": "RE: Phase 2 kickoff materials",
+    "text": "These look great, no changes needed from my side. Appreciate you building in the extra buffer for UAT, that shows you're thinking ahead. Looking forward to Thursday's session."
+  },
+  {
+    "id": "E-3",
+    "thread_id": "TH-atlas",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "David Okafor",
+      "role": "IT Director",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-10",
+    "subject": "Board update went well",
+    "text": "Just a quick note, the board update went really well and your team's slides were a big part of that. I mentioned to my boss that this has been one of the smoothest vendor engagements we've run. Keep it up."
+  },
+  {
+    "id": "E-4",
+    "thread_id": "TH-atlas",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "David Okafor",
+      "role": "IT Director",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-28",
+    "subject": "Renewal conversation",
+    "text": "Given how Phase 1 and 2 have gone, I want to start a conversation about extending the SOW into Phase 3 ahead of schedule. Let's find time next week."
+  },
+  {
+    "id": "E-5",
+    "thread_id": "TH-beacon",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Priya Nair",
+      "role": "Data Governance Lead",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-09",
+    "subject": "Policy framework doc - excellent work",
+    "text": "This is exactly what we needed. Clear, well-organized, and it maps cleanly to our compliance requirements. My legal team had almost no comments, which never happens."
+  },
+  {
+    "id": "E-6",
+    "thread_id": "TH-beacon",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Priya Nair",
+      "role": "Data Governance Lead",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-25",
+    "subject": "Thank you for the fast turnaround",
+    "text": "I know I sent that data lineage question late on a Friday and didn't expect an answer until Monday. Getting a thorough response Saturday morning was above and beyond. Really appreciate the responsiveness."
+  },
+  {
+    "id": "E-7",
+    "thread_id": "TH-beacon",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Priya Nair",
+      "role": "Data Governance Lead",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-15",
+    "subject": "Steering committee feedback",
+    "text": "Wanted to pass along that our CDO specifically called out this workstream as the model for how the other governance tracks should run. Well deserved, thank you."
+  },
+  {
+    "id": "E-8",
+    "thread_id": "TH-cascade",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Marcus Webb",
+      "role": "Analytics Manager",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-03",
+    "subject": "Kickoff - excited to get going",
+    "text": "Really looking forward to this workstream. The proposed data model looks solid and the timeline feels achievable. Let's keep the momentum from the pitch going."
+  },
+  {
+    "id": "E-9",
+    "thread_id": "TH-cascade",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Marcus Webb",
+      "role": "Analytics Manager",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-28",
+    "subject": "RE: Sprint 2 demo",
+    "text": "Demo was fine, though I noticed the churn model still isn't using the updated segments we discussed three weeks ago. Can we make sure that's in for Sprint 3? Don't want it to slip again."
+  },
+  {
+    "id": "E-10",
+    "thread_id": "TH-cascade",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Marcus Webb",
+      "role": "Analytics Manager",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-12",
+    "subject": "Timeline concerns",
+    "text": "I'm a little concerned we're now two sprints behind where the original plan had us. I understand things come up, but I'd like a clearer view of how we get back on track before I have to explain this upward. Can we set up a call this week instead of waiting for the regular cadence?"
+  },
+  {
+    "id": "E-11",
+    "thread_id": "TH-cascade",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Marcus Webb",
+      "role": "Analytics Manager",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-27",
+    "subject": "Following up again",
+    "text": "This is the second time I've had to ask for the updated project plan after saying I needed it by end of week. I don't want to escalate this, but I need to see a concrete recovery plan, not just an apology, by Monday."
+  },
+  {
+    "id": "E-12",
+    "thread_id": "TH-delta",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Elena Vasquez",
+      "role": "Program Sponsor",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-08",
+    "subject": "Missed integration test window",
+    "text": "This is the third missed test window this month. Each time it pushes our downstream teams' schedules. I need to understand what is actually going wrong here, not just that there was 'an unexpected issue.'"
+  },
+  {
+    "id": "E-13",
+    "thread_id": "TH-delta",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Elena Vasquez",
+      "role": "Program Sponsor",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-07-22",
+    "subject": "Unacceptable",
+    "text": "I found out from my own team that the API mapping was wrong, not from your team, even though this has apparently been known for a week. I should not be the last to know about problems on my own program."
+  },
+  {
+    "id": "E-14",
+    "thread_id": "TH-delta",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Elena Vasquez",
+      "role": "Program Sponsor",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-05",
+    "subject": "Escalating to your engagement partner",
+    "text": "I've asked for a root cause analysis twice and haven't received one. I'm looping in your engagement partner because I no longer feel confident this workstream will self-correct without leadership involvement on your side."
+  },
+  {
+    "id": "E-15",
+    "thread_id": "TH-delta",
+    "kind": "email",
+    "direction": "inbound",
+    "contact": {
+      "name": "Elena Vasquez",
+      "role": "Program Sponsor",
+      "org": "Meridian Holdings"
+    },
+    "date": "2026-08-24",
+    "subject": "Formal concerns ahead of QBR",
+    "text": "Ahead of the QBR I want it on record that this workstream has not met a milestone on time since May. We are evaluating whether this scope should be restructured or reassigned. Please come prepared to discuss both options."
+  }
+]

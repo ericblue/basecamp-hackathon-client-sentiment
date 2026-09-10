@@ -258,7 +258,10 @@ def build_brief(engagement: Engagement, messages: list[Message]) -> Brief:
     ]
     resp = client().messages.parse(
         model=BRIEF_MODEL,
-        max_tokens=2048,
+        # Not 2048: with a full dataset the summary plus three cited actions
+        # ran past it and the structured output was truncated mid-JSON, which
+        # surfaces as a parse error, not as a short brief.
+        max_tokens=16000,
         system=[{
             "type": "text",
             "text": prompts.BRIEF_SYSTEM,
