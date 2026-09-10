@@ -1,0 +1,219 @@
+{
+  "client": "Meridian Holdings",
+  "generated_note": "Synthetic placeholder data for the client-sentiment-radar agent. Names, companies, and quotes are fabricated for demo/eval purposes.",
+  "data_dictionary": {
+    "sentiment_hint": "Internal-only ground-truth label for eval purposes. The agent must NOT read this field or rely on it — it derives sentiment purely from email/transcript content.",
+    "workstream_status": "great | trending_down | bad"
+  },
+  "workstreams": [
+    {
+      "id": "atlas",
+      "name": "Workstream Atlas",
+      "description": "Cloud Migration Program",
+      "client_contact": {
+        "name": "David Okafor",
+        "title": "IT Director, Meridian Holdings"
+      },
+      "workstream_status": "great",
+      "emails": [
+        {
+          "date": "2026-07-06",
+          "from": "david.okafor@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Great progress on the migration cutover",
+          "body": "Team, wanted to say thank you for the weekend cutover work. Zero downtime and the dashboards you sent this morning made the exec readout easy. This is exactly the kind of execution we hoped for when we kicked this off."
+        },
+        {
+          "date": "2026-07-20",
+          "from": "david.okafor@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "RE: Phase 2 kickoff materials",
+          "body": "These look great, no changes needed from my side. Appreciate you building in the extra buffer for UAT, that shows you're thinking ahead. Looking forward to Thursday's session."
+        },
+        {
+          "date": "2026-08-10",
+          "from": "david.okafor@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Board update went well",
+          "body": "Just a quick note, the board update went really well and your team's slides were a big part of that. I mentioned to my boss that this has been one of the smoothest vendor engagements we've run. Keep it up."
+        },
+        {
+          "date": "2026-08-28",
+          "from": "david.okafor@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Renewal conversation",
+          "body": "Given how Phase 1 and 2 have gone, I want to start a conversation about extending the SOW into Phase 3 ahead of schedule. Let's find time next week."
+        }
+      ],
+      "meetings": [
+        {
+          "date": "2026-07-15",
+          "title": "Atlas Steering Committee - July",
+          "attendees": ["David Okafor", "Engagement Lead", "Cloud Architect"],
+          "transcript_excerpt": "OKAFOR: I have to say, the migration runbook you all put together was the best I've seen from any vendor. My team barely had to lift a finger. ENGAGEMENT LEAD: Glad to hear it, we'll keep that cadence for Phase 2. OKAFOR: Please do, this is the standard we want going forward."
+        },
+        {
+          "date": "2026-08-19",
+          "title": "Atlas Steering Committee - August",
+          "attendees": ["David Okafor", "Engagement Lead"],
+          "transcript_excerpt": "OKAFOR: No real concerns from me this month. If anything I'd like to talk about pulling Phase 3 forward since things are going so smoothly. ENGAGEMENT LEAD: We can absolutely scope that out. OKAFOR: Great, let's prioritize that conversation."
+        }
+      ]
+    },
+    {
+      "id": "beacon",
+      "name": "Workstream Beacon",
+      "description": "Enterprise Data Governance Rollout",
+      "client_contact": {
+        "name": "Priya Nair",
+        "title": "Data Governance Lead, Meridian Holdings"
+      },
+      "workstream_status": "great",
+      "emails": [
+        {
+          "date": "2026-07-09",
+          "from": "priya.nair@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Policy framework doc - excellent work",
+          "body": "This is exactly what we needed. Clear, well-organized, and it maps cleanly to our compliance requirements. My legal team had almost no comments, which never happens."
+        },
+        {
+          "date": "2026-07-25",
+          "from": "priya.nair@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Thank you for the fast turnaround",
+          "body": "I know I sent that data lineage question late on a Friday and didn't expect an answer until Monday. Getting a thorough response Saturday morning was above and beyond. Really appreciate the responsiveness."
+        },
+        {
+          "date": "2026-08-15",
+          "from": "priya.nair@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Steering committee feedback",
+          "body": "Wanted to pass along that our CDO specifically called out this workstream as the model for how the other governance tracks should run. Well deserved, thank you."
+        }
+      ],
+      "meetings": [
+        {
+          "date": "2026-07-30",
+          "title": "Beacon Working Session",
+          "attendees": ["Priya Nair", "Data Governance Analyst", "Engagement Lead"],
+          "transcript_excerpt": "NAIR: Honestly this is one of the easier workstreams for me to manage day to day, your team anticipates the questions before I even ask them. ENGAGEMENT LEAD: That's great to hear, we've tried to stay a step ahead on the policy mapping. NAIR: It shows."
+        },
+        {
+          "date": "2026-08-20",
+          "title": "Beacon Monthly Review",
+          "attendees": ["Priya Nair", "Engagement Lead"],
+          "transcript_excerpt": "NAIR: No open issues from my end this month. ENGAGEMENT LEAD: Anything you want us to focus on for September? NAIR: Just keep doing what you're doing, honestly."
+        }
+      ]
+    },
+    {
+      "id": "cascade",
+      "name": "Workstream Cascade",
+      "description": "Customer Analytics Platform Build",
+      "client_contact": {
+        "name": "Marcus Webb",
+        "title": "Analytics Manager, Meridian Holdings"
+      },
+      "workstream_status": "trending_down",
+      "emails": [
+        {
+          "date": "2026-07-03",
+          "from": "marcus.webb@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Kickoff - excited to get going",
+          "body": "Really looking forward to this workstream. The proposed data model looks solid and the timeline feels achievable. Let's keep the momentum from the pitch going."
+        },
+        {
+          "date": "2026-07-28",
+          "from": "marcus.webb@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "RE: Sprint 2 demo",
+          "body": "Demo was fine, though I noticed the churn model still isn't using the updated segments we discussed three weeks ago. Can we make sure that's in for Sprint 3? Don't want it to slip again."
+        },
+        {
+          "date": "2026-08-12",
+          "from": "marcus.webb@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Timeline concerns",
+          "body": "I'm a little concerned we're now two sprints behind where the original plan had us. I understand things come up, but I'd like a clearer view of how we get back on track before I have to explain this upward. Can we set up a call this week instead of waiting for the regular cadence?"
+        },
+        {
+          "date": "2026-08-27",
+          "from": "marcus.webb@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Following up again",
+          "body": "This is the second time I've had to ask for the updated project plan after saying I needed it by end of week. I don't want to escalate this, but I need to see a concrete recovery plan, not just an apology, by Monday."
+        }
+      ],
+      "meetings": [
+        {
+          "date": "2026-07-10",
+          "title": "Cascade Kickoff",
+          "attendees": ["Marcus Webb", "Engagement Lead", "Data Scientist"],
+          "transcript_excerpt": "WEBB: This all sounds good, I'm optimistic about the approach. ENGAGEMENT LEAD: We're glad to have you along for it. WEBB: Same, let's make it a good one."
+        },
+        {
+          "date": "2026-08-14",
+          "title": "Cascade Recovery Discussion",
+          "attendees": ["Marcus Webb", "Engagement Lead"],
+          "transcript_excerpt": "WEBB: I want to be direct, I'm not seeing the urgency from the team that I'd expect given we're behind schedule. ENGAGEMENT LEAD: That's fair feedback, we'll tighten up the daily standups. WEBB: I need to see that translate into actual dates, not just process changes. My credibility with my VP is on the line here too."
+        }
+      ]
+    },
+    {
+      "id": "delta",
+      "name": "Workstream Delta",
+      "description": "Legacy System Integration",
+      "client_contact": {
+        "name": "Elena Vasquez",
+        "title": "Program Sponsor, Meridian Holdings"
+      },
+      "workstream_status": "bad",
+      "emails": [
+        {
+          "date": "2026-07-08",
+          "from": "elena.vasquez@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Missed integration test window",
+          "body": "This is the third missed test window this month. Each time it pushes our downstream teams' schedules. I need to understand what is actually going wrong here, not just that there was 'an unexpected issue.'"
+        },
+        {
+          "date": "2026-07-22",
+          "from": "elena.vasquez@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Unacceptable",
+          "body": "I found out from my own team that the API mapping was wrong, not from your team, even though this has apparently been known for a week. I should not be the last to know about problems on my own program."
+        },
+        {
+          "date": "2026-08-05",
+          "from": "elena.vasquez@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Escalating to your engagement partner",
+          "body": "I've asked for a root cause analysis twice and haven't received one. I'm looping in your engagement partner because I no longer feel confident this workstream will self-correct without leadership involvement on your side."
+        },
+        {
+          "date": "2026-08-24",
+          "from": "elena.vasquez@meridianholdings.com",
+          "to": "engagement-team@deloitte.com",
+          "subject": "Formal concerns ahead of QBR",
+          "body": "Ahead of the QBR I want it on record that this workstream has not met a milestone on time since May. We are evaluating whether this scope should be restructured or reassigned. Please come prepared to discuss both options."
+        }
+      ],
+      "meetings": [
+        {
+          "date": "2026-07-29",
+          "title": "Delta Escalation Call",
+          "attendees": ["Elena Vasquez", "Engagement Lead", "Engagement Partner"],
+          "transcript_excerpt": "VASQUEZ: I want to be blunt, trust is pretty much gone at this point. Every status report says green until it's suddenly not. ENGAGEMENT PARTNER: That's on us, and I take that seriously. VASQUEZ: I need more than that. I need to see it fixed, and soon, or we're going to have a bigger conversation about this contract."
+        },
+        {
+          "date": "2026-08-22",
+          "title": "Delta Pre-QBR Sync",
+          "attendees": ["Elena Vasquez", "Engagement Lead"],
+          "transcript_excerpt": "VASQUEZ: Honestly I've stopped expecting good news on this workstream, which is not where I want to be six months in. ENGAGEMENT LEAD: Understood, we're bringing a revised plan to the QBR. VASQUEZ: I'll reserve judgment until I see it hold for more than two weeks."
+        }
+      ]
+    }
+  ]
+}
