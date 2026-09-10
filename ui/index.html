@@ -219,14 +219,14 @@ body {
   </div>
   <div class="h-gap"></div>
   <button class="eng-btn">
-    Northwind Retail · Workday HCM rollout
+    <span id="engName">Loading…</span>
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
       <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
   <div class="scan-pill">
-    <span class="live-dot"></span>
-    Last scan 07:02 · next 08:02
+    <span class="live-dot" id="liveDot"></span>
+    <span id="scanText">connecting…</span>
   </div>
   <button class="btn-brief">Brief me</button>
 </header>
@@ -249,68 +249,19 @@ body {
         <svg class="chart-svg" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg"
              role="img" aria-label="Client sentiment trend, 6 weeks. Warm start, dips sharply at Week 5 after missed migration deadline, partial recovery at Week 6.">
 
-          <!-- miss shading (centred on W5 x=524, below zero y=108) -->
-          <rect x="484" y="108" width="80" height="80" fill="rgba(200,33,26,.06)"/>
-
-          <!-- horizontal grid -->
-          <line x1="52" y1="28"  x2="642" y2="28"  stroke="var(--chart-grid)" stroke-width="1"/>
-          <line x1="52" y1="68"  x2="642" y2="68"  stroke="var(--chart-grid)" stroke-width="1"/>
+          <line x1="52" y1="28" x2="642" y2="28" stroke="var(--chart-grid)" stroke-width="1"/>
+          <line x1="52" y1="68" x2="642" y2="68" stroke="var(--chart-grid)" stroke-width="1"/>
           <line x1="52" y1="108" x2="642" y2="108" stroke="var(--chart-zero)" stroke-width="1" stroke-dasharray="4 3"/>
           <line x1="52" y1="148" x2="642" y2="148" stroke="var(--chart-grid)" stroke-width="1"/>
           <line x1="52" y1="188" x2="642" y2="188" stroke="var(--chart-grid)" stroke-width="1"/>
 
-          <!-- y-axis labels -->
-          <text x="47" y="31"  text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 1.0</text>
-          <text x="47" y="71"  text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 0.5</text>
+          <text x="47" y="31" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 1.0</text>
+          <text x="47" y="71" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 0.5</text>
           <text x="47" y="111" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 0.0</text>
           <text x="47" y="151" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums">−0.5</text>
           <text x="47" y="191" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums">−1.0</text>
 
-          <!-- x-axis labels -->
-          <text x="52"  y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 1</text>
-          <text x="170" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 2</text>
-          <text x="288" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 3</text>
-          <text x="406" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 4</text>
-          <text x="524" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 5</text>
-          <text x="642" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 6</text>
-
-          <!-- event lines -->
-          <!-- W4: status call where cutover runbook first flagged (T-3, May 7) -->
-          <line x1="406" y1="28" x2="406" y2="188" stroke="var(--chart-ev)"   stroke-width="1"   stroke-dasharray="3 3"/>
-          <!-- W5: migration deadline missed (May 19) — red -->
-          <line x1="524" y1="28" x2="524" y2="188" stroke="var(--chart-miss)" stroke-width="1.2" stroke-dasharray="3 3"/>
-
-          <!-- event labels -->
-          <text x="62" y="43" font-size="11" fill="var(--chart-ev)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Kickoff</text>
-          <line x1="57" y1="46" x2="53" y2="46" stroke="var(--chart-ev)" stroke-width="1" stroke-linecap="round"/>
-          <polygon points="53,44 49,47 53,50" fill="var(--chart-ev)"/>
-
-          <text x="294" y="42" font-size="11" fill="var(--chart-ev)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Status call</text>
-
-          <text x="530" y="36" font-size="11" fill="var(--chart-miss)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="600">Migration</text>
-          <text x="530" y="49" font-size="11" fill="var(--chart-miss)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="600">deadline missed</text>
-
-          <!-- data line -->
-          <polyline points="52,48 170,66 288,104 406,132 524,162 642,136"
-            fill="none" stroke="var(--chart-line)" stroke-width="2.2"
-            stroke-linejoin="round" stroke-linecap="round"/>
-
-          <!-- data dots -->
-          <circle cx="52"  cy="48"  r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
-          <circle cx="170" cy="66"  r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
-          <circle cx="288" cy="104" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
-          <circle cx="406" cy="132" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
-          <!-- W5 is the crisis dot — filled red -->
-          <circle cx="524" cy="162" r="6" fill="var(--esc)" stroke="var(--esc)" stroke-width="2"/>
-          <circle cx="642" cy="136" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
-
-          <!-- invisible hit targets -->
-          <circle cx="52"  cy="48"  r="20" fill="transparent" class="hit" data-i="0"/>
-          <circle cx="170" cy="66"  r="20" fill="transparent" class="hit" data-i="1"/>
-          <circle cx="288" cy="104" r="20" fill="transparent" class="hit" data-i="2"/>
-          <circle cx="406" cy="132" r="20" fill="transparent" class="hit" data-i="3"/>
-          <circle cx="524" cy="162" r="20" fill="transparent" class="hit" data-i="4"/>
-          <circle cx="642" cy="136" r="20" fill="transparent" class="hit" data-i="5"/>
+          <g id="chartDyn"></g>
         </svg>
 
         <div class="c-tip" id="tip">
@@ -330,53 +281,7 @@ body {
     <div class="card">
       <div class="sec-hdr">Client messages</div>
 
-      <!-- E-14: Dana — escalating, May 21 -->
-      <div class="msg-row">
-        <span class="chip ch-esc">Escalating</span>
-        <div class="av" style="background:#FDE8E7;color:#C8211A;">DW</div>
-        <div class="mb">
-          <div class="mb-who">Dana Whitfield <span class="mb-role">· CFO</span></div>
-          <div class="mb-subj">Thursday's steering call</div>
-          <div class="mb-q">"What the contractual position is if it is not [credible]."</div>
-        </div>
-        <div class="msg-date">May 21</div>
-      </div>
-
-      <!-- E-11: Marcus — frustrated, May 20 -->
-      <div class="msg-row">
-        <span class="chip ch-fru">Frustrated</span>
-        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
-        <div class="mb">
-          <div class="mb-who">Marcus Reyes <span class="mb-role">· Program Director</span></div>
-          <div class="mb-subj">Migration date</div>
-          <div class="mb-q">"What I need now is not reassurance, it is a dated plan I can take to Dana."</div>
-        </div>
-        <div class="msg-date">May 20</div>
-      </div>
-
-      <!-- E-17: Marcus — concerned but recovering, May 24 -->
-      <div class="msg-row">
-        <span class="chip ch-con">Concerned</span>
-        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
-        <div class="mb">
-          <div class="mb-who">Marcus Reyes <span class="mb-role">· Program Director</span></div>
-          <div class="mb-subj">Re: Recovery plan</div>
-          <div class="mb-q">"The first thing I have been able to forward to Dana without caveating it."</div>
-        </div>
-        <div class="msg-date">May 24</div>
-      </div>
-
-      <!-- T-3: Marcus — concerned, transcript turn, May 7 -->
-      <div class="msg-row">
-        <span class="chip ch-trn">Transcript</span>
-        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
-        <div class="mb">
-          <div class="mb-who">Marcus Reyes <span class="mb-role">· Weekly status call</span></div>
-          <div class="mb-subj">Cutover runbook</div>
-          <div class="mb-q">"We are three weeks out and my team still has not seen a cutover runbook."</div>
-        </div>
-        <div class="msg-date">May 7</div>
-      </div>
+      <div id="msgList"></div>
     </div>
   </div>
 
@@ -386,85 +291,23 @@ body {
     <!-- CONTACTS — 3 contacts from stub_data.RADAR.contacts -->
     <div class="card">
       <div class="sec-hdr">Contact temperature</div>
-      <div class="cg">
-        <!-- Dana: temperature=-0.88 → escalating -->
-        <div class="cc">
-          <div class="cc-top">
-            <div class="cav" style="background:#FDE8E7;color:#C8211A;">DW</div>
-            <div><div class="cname">Dana Whitfield</div><div class="crole">CFO</div></div>
-          </div>
-          <div class="tb"><div class="tf" style="width:90%;background:var(--esc);"></div></div>
-          <div class="tl" style="color:var(--esc);">Escalating</div>
-        </div>
-        <!-- Marcus: temperature=-0.25 → concerned -->
-        <div class="cc">
-          <div class="cc-top">
-            <div class="cav" style="background:#FDE9D5;color:#C25209;">MR</div>
-            <div><div class="cname">Marcus Reyes</div><div class="crole">Program Director</div></div>
-          </div>
-          <div class="tb"><div class="tf" style="width:52%;background:var(--con);"></div></div>
-          <div class="tl" style="color:var(--con);">Concerned</div>
-        </div>
-        <!-- Priya: temperature=+0.45 → positive -->
-        <div class="cc">
-          <div class="cc-top">
-            <div class="cav" style="background:#D1F5F0;color:#147D6F;">PN</div>
-            <div><div class="cname">Priya Nair</div><div class="crole">HR Operations Lead</div></div>
-          </div>
-          <div class="tb"><div class="tf" style="width:73%;background:var(--pos);"></div></div>
-          <div class="tl" style="color:var(--pos);">Positive</div>
-        </div>
-      </div>
+      <div class="cg" id="contactGrid"></div>
     </div>
 
     <!-- DEADLINES — from stub_data.RADAR.deadlines -->
     <div class="card">
       <div class="sec-hdr">Deadlines and risks</div>
-      <div class="dl-list">
-        <!-- D-1: missed — red -->
-        <div class="dl-row">
-          <div class="dl-dot" style="background:var(--esc);"></div>
-          <div class="dl-txt"><strong>Payroll data migration</strong><span class="dl-meta"> · due May 19 · missed · 3 mentions</span></div>
-        </div>
-        <!-- D-2: at risk — amber -->
-        <div class="dl-row">
-          <div class="dl-dot" style="background:var(--con);"></div>
-          <div class="dl-txt"><strong>Phase 1 go-live</strong><span class="dl-meta"> · due Jun 15 · at risk · 3 mentions</span></div>
-        </div>
-        <!-- D-3: on track — grey -->
-        <div class="dl-row">
-          <div class="dl-dot" style="background:var(--text-3);"></div>
-          <div class="dl-txt"><strong>Parallel payroll run</strong><span class="dl-meta"> · due Jun 1 · on track · 0 mentions</span></div>
-        </div>
-      </div>
+      <div class="dl-list" id="dlList"></div>
     </div>
 
     <!-- BRIEF — from stub_data.BRIEF -->
     <div class="card">
       <div class="brf-hdr">
         <span class="brf-title">Monday brief</span>
-        <span class="brf-badge">Generated 07:02</span>
+        <span class="brf-badge" id="brfBadge">not generated</span>
       </div>
-      <div class="brf-sum">
-        Northwind has gone from warm to escalating in three weeks, and the trigger is a single missed date. The May 19 payroll migration slipped after Marcus flagged the earning-code gap on April 28 and again on the May 7 call; he escalated on May 20, and Dana Whitfield has now pulled her COO into Thursday's steering call and asked about the contractual position on the June 15 go-live. The recovery plan has partially stabilised Marcus, but Dana has not softened and is the relationship to repair.
-      </div>
-      <div class="brf-acts">
-        <div class="ba">
-          <span class="ba-n">1.</span>
-          <span class="ba-t">Send Dana a written go-live assessment before Thursday that answers the credibility question directly rather than defending the slip.</span>
-          <span class="cite">E-14</span>
-        </div>
-        <div class="ba">
-          <span class="ba-n">2.</span>
-          <span class="ba-t">Call Marcus to confirm Thursday is a working session, and bring the dated cutover plan he asked for twice.</span>
-          <span class="cite">E-11, E-17</span>
-        </div>
-        <div class="ba">
-          <span class="ba-n">3.</span>
-          <span class="ba-t">Close out the two unmapped legacy earning codes this week — they are the root of the missed date and are still open.</span>
-          <span class="cite">E-5</span>
-        </div>
-      </div>
+      <div class="brf-sum" id="brfSum">Press <strong>Brief me</strong> to generate the account brief from the live backend.</div>
+      <div class="brf-acts" id="brfActs"></div>
       <div class="ingest">
         <input class="ing-inp" type="text" id="ingestInput" placeholder="Paste a new client email to score it…" aria-label="Paste a client email to score">
         <button class="btn-ing" id="ingestBtn">Ingest</button>
@@ -476,64 +319,304 @@ body {
 
 <script>
 (function () {
-  // chart tooltip data — matches stub_data.RADAR.trend
-  const pts = [
-    { week:'Week 1 (W16)', score:'+0.75', tone:'Positive',   col:'#147D6F', n:2, cx:52,  cy:48  },
-    { week:'Week 2 (W17)', score:'+0.52', tone:'Positive',   col:'#147D6F', n:3, cx:170, cy:66  },
-    { week:'Week 3 (W18)', score:'+0.05', tone:'Neutral',    col:'#9AA3B2', n:4, cx:288, cy:104 },
-    { week:'Week 4 (W19)', score:'−0.30', tone:'Concerned',  col:'#B45309', n:3, cx:406, cy:132 },
-    { week:'Week 5 (W20)', score:'−0.68', tone:'Escalating', col:'#C8211A', n:5, cx:524, cy:162 },
-    { week:'Week 6 (W21)', score:'−0.35', tone:'Concerned',  col:'#B45309', n:4, cx:642, cy:136 },
-  ];
+  'use strict';
 
-  const tip    = document.getElementById('tip');
-  const ttWk   = document.getElementById('tt-wk');
-  const ttSc   = document.getElementById('tt-sc');
-  const ttTone = document.getElementById('tt-tone');
-  const ttN    = document.getElementById('tt-n');
-  const svgEl  = document.querySelector('.chart-svg');
-  const outer  = document.querySelector('.chart-outer');
+  // One constant, per the architecture: flip this (or pass ?api=...) to move
+  // between local and deployed. Nothing else in the page knows the difference.
+  var API = new URLSearchParams(location.search).get('api')
+         || 'https://client-sentiment-radar.onrender.com';
 
-  document.querySelectorAll('.hit').forEach(el => {
-    const i = +el.dataset.i;
-    el.style.cursor = 'crosshair';
-    el.addEventListener('mouseenter', () => {
-      const d = pts[i];
-      ttWk.textContent   = d.week;
-      ttSc.textContent   = d.score;
-      ttTone.textContent = d.tone;
-      ttTone.style.color = d.col;
-      ttN.textContent    = d.n + ' client message' + (d.n !== 1 ? 's' : '');
+  var TONE = {
+    positive:   { cls:'ch-con', col:'var(--pos)', label:'Positive'   },
+    neutral:    { cls:'ch-trn', col:'var(--text-3)', label:'Neutral'  },
+    concerned:  { cls:'ch-con', col:'var(--con)', label:'Concerned'  },
+    frustrated: { cls:'ch-fru', col:'var(--fru)', label:'Frustrated' },
+    escalating: { cls:'ch-esc', col:'var(--esc)', label:'Escalating' }
+  };
+  var AV = {
+    positive:   ['#DCF2EC','#147D6F'], neutral: ['#EEF1F5','#5A6472'],
+    concerned:  ['#FDF0D8','#B45309'], frustrated:['#FDE9D5','#C25209'],
+    escalating: ['#FDE8E7','#C8211A']
+  };
 
-      const svgR = svgEl.getBoundingClientRect();
-      const outR = outer.getBoundingClientRect();
-      const sx = svgR.width / 660, sy = svgR.height / 240;
-      let left = (d.cx * sx) + (svgR.left - outR.left);
-      let top  = (d.cy * sy) + (svgR.top  - outR.top) - 90;
-      if (left + 150 > outR.width) left -= 150;
-      if (top < 0) top += 112;
-
-      tip.style.left = left + 'px';
-      tip.style.top  = top  + 'px';
-      tip.classList.add('show');
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (t) {
+    return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) {
+      return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c];
     });
-    el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+  };
+  var toneOf = function (t) { return TONE[t] || TONE.neutral; };
+  var initials = function (n) {
+    return String(n || '?').split(/\s+/).slice(0, 2).map(function (w) { return w[0]; })
+      .join('').toUpperCase();
+  };
+  var shortDate = function (d) {
+    var dt = new Date(String(d).slice(0, 10) + 'T00:00:00');
+    return isNaN(dt) ? String(d) :
+      dt.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  };
+  var hhmm = function (iso) {
+    if (!iso) return null;
+    var dt = new Date(iso);
+    return isNaN(dt) ? null
+      : dt.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12:false });
+  };
+  // ISO week key, to line a deadline's due date up with a trend bucket
+  var isoWeek = function (d) {
+    var dt = new Date(String(d).slice(0, 10) + 'T00:00:00');
+    if (isNaN(dt)) return null;
+    var t = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate()));
+    t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+    var y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    var wk = Math.ceil(((t - y0) / 86400000 + 1) / 7);
+    return t.getUTCFullYear() + '-W' + String(wk).padStart(2, '0');
+  };
+
+  function api(path, opts) {
+    return fetch(API + path, Object.assign({ headers:{ 'content-type':'application/json' } }, opts))
+      .then(function (r) {
+        if (!r.ok) return r.json().catch(function () { return {}; })
+          .then(function (b) { throw new Error(b.detail || ('HTTP ' + r.status)); });
+        return r.json();
+      });
+  }
+
+  var state = { messages:[], radar:null, engagement:null, live:false };
+
+  // --- chart -------------------------------------------------------------
+  var X0 = 52, X1 = 642, ZERO = 108, SCALE = 80;
+
+  function renderChart(trend, deadlines) {
+    var g = $('chartDyn');
+    if (!trend || !trend.length) { g.innerHTML = ''; return; }
+    var n = trend.length;
+    var x = function (i) { return n === 1 ? (X0 + X1) / 2 : X0 + i * (X1 - X0) / (n - 1); };
+    var y = function (v) { return Math.max(28, Math.min(188, ZERO - v * SCALE)); };
+    var out = [];
+
+    // shade the week a flagged deadline falls in
+    (deadlines || []).forEach(function (d) {
+      if (!d.at_risk) return;
+      var wk = isoWeek(d.due), i = trend.findIndex(function (t) { return t.week === wk; });
+      if (i < 0) return;
+      out.push('<rect x="' + (x(i) - 40) + '" y="' + ZERO + '" width="80" height="80" fill="rgba(200,33,26,.06)"/>');
+      out.push('<line x1="' + x(i) + '" y1="28" x2="' + x(i) + '" y2="188" stroke="var(--chart-miss)" stroke-width="1.2" stroke-dasharray="3 3"/>');
+      out.push('<text x="' + (x(i) + 6) + '" y="36" font-size="11" fill="var(--chart-miss)" font-weight="600" font-family="Plus Jakarta Sans,system-ui,sans-serif">' + esc(d.title) + '</text>');
+      out.push('<text x="' + (x(i) + 6) + '" y="49" font-size="11" fill="var(--chart-miss)" font-weight="600" font-family="Plus Jakarta Sans,system-ui,sans-serif">' + (d.status === 'missed' ? 'deadline missed' : 'at risk') + '</text>');
+    });
+
+    trend.forEach(function (t, i) {
+      out.push('<text x="' + x(i) + '" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">' + esc(t.week.replace(/^\d+-/, '')) + '</text>');
+    });
+
+    out.push('<polyline points="' + trend.map(function (t, i) { return x(i) + ',' + y(t.avg_score); }).join(' ') +
+             '" fill="none" stroke="var(--chart-line)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>');
+
+    var low = trend.reduce(function (a, b) { return b.avg_score < a.avg_score ? b : a; }, trend[0]);
+    trend.forEach(function (t, i) {
+      var crisis = t === low && t.avg_score < -0.4;
+      out.push(crisis
+        ? '<circle cx="' + x(i) + '" cy="' + y(t.avg_score) + '" r="6" fill="var(--esc)" stroke="var(--esc)" stroke-width="2"/>'
+        : '<circle cx="' + x(i) + '" cy="' + y(t.avg_score) + '" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>');
+      out.push('<circle cx="' + x(i) + '" cy="' + y(t.avg_score) + '" r="20" fill="transparent" class="hit" data-i="' + i + '" style="cursor:crosshair"/>');
+    });
+
+    g.innerHTML = out.join('\n');
+    wireTooltips(trend, x, y);
+  }
+
+  function wireTooltips(trend, x, y) {
+    var tip = $('tip'), svgEl = document.querySelector('.chart-svg'),
+        outer = document.querySelector('.chart-outer');
+    document.querySelectorAll('.hit').forEach(function (el) {
+      var i = +el.dataset.i, t = trend[i];
+      el.addEventListener('mouseenter', function () {
+        var band = t.avg_score >= 0.35 ? 'positive' : t.avg_score >= -0.15 ? 'neutral'
+                 : t.avg_score >= -0.45 ? 'concerned' : t.avg_score >= -0.75 ? 'frustrated' : 'escalating';
+        $('tt-wk').textContent = t.week;
+        $('tt-sc').textContent = (t.avg_score >= 0 ? '+' : '−') + Math.abs(t.avg_score).toFixed(2);
+        $('tt-tone').textContent = toneOf(band).label;
+        $('tt-tone').style.color = toneOf(band).col;
+        $('tt-n').textContent = t.n + ' client message' + (t.n === 1 ? '' : 's');
+        var sr = svgEl.getBoundingClientRect(), or_ = outer.getBoundingClientRect();
+        var sx = sr.width / 660, sy = sr.height / 240;
+        var left = x(i) * sx + (sr.left - or_.left), top = y(t.avg_score) * sy + (sr.top - or_.top) - 90;
+        if (left + 150 > or_.width) left -= 150;
+        if (top < 0) top += 112;
+        tip.style.left = left + 'px'; tip.style.top = top + 'px';
+        tip.classList.add('show');
+      });
+      el.addEventListener('mouseleave', function () { tip.classList.remove('show'); });
+    });
+  }
+
+  // --- messages ----------------------------------------------------------
+  function renderMessages(messages) {
+    var rows = messages.slice().sort(function (a, b) {
+      return String(b.date).localeCompare(String(a.date));
+    }).slice(0, 12).map(function (m) {
+      var who = (m.contact && m.contact.name) || 'Unknown';
+      var role = m.kind === 'transcript_turn' && m.meeting ? m.meeting.title
+               : (m.contact && m.contact.role) || '';
+      var subj = m.subject || (m.meeting && m.meeting.title) || '—';
+
+      // OUTBOUND: our own words. Greyed, no tone, no score - by design.
+      if (m.direction !== 'inbound') {
+        return '<div class="msg-row" style="opacity:.55">' +
+          '<span class="chip ch-rep">Our reply</span>' +
+          '<div class="av" style="background:#EEF1F5;color:#5A6472;">' + esc(initials(who)) + '</div>' +
+          '<div class="mb"><div class="mb-who">' + esc(who) + ' <span class="mb-role">· ' + esc(role) + '</span></div>' +
+          '<div class="mb-subj">' + esc(subj) + '</div>' +
+          '<div class="mb-q" style="font-style:normal;">' + esc(String(m.text || '').slice(0, 150)) + '</div></div>' +
+          '<div class="msg-date">' + esc(shortDate(m.date)) + '</div></div>';
+      }
+
+      var tn = toneOf(m.tone), av = AV[m.tone] || AV.neutral;
+      var chip = m.kind === 'transcript_turn' ? 'ch-trn' : tn.cls;
+      // Never a tone label without the quote behind it.
+      var body = m.quote ? '"' + esc(m.quote) + '"' : esc(String(m.text || '').slice(0, 150));
+      return '<div class="msg-row">' +
+        '<span class="chip ' + chip + '">' + esc(tn.label) + '</span>' +
+        '<div class="av" style="background:' + av[0] + ';color:' + av[1] + ';">' + esc(initials(who)) + '</div>' +
+        '<div class="mb"><div class="mb-who">' + esc(who) + ' <span class="mb-role">· ' + esc(role) + '</span></div>' +
+        '<div class="mb-subj">' + esc(subj) + '</div>' +
+        '<div class="mb-q">' + body + '</div></div>' +
+        '<div class="msg-date">' + esc(shortDate(m.date)) + '</div></div>';
+    });
+    $('msgList').innerHTML = rows.join('') ||
+      '<div class="msg-row"><div class="mb">No messages yet.</div></div>';
+  }
+
+  // --- contacts / deadlines ----------------------------------------------
+  function bandOf(t) {
+    return t >= 0.35 ? 'positive' : t >= -0.15 ? 'neutral'
+         : t >= -0.45 ? 'concerned' : t >= -0.75 ? 'frustrated' : 'escalating';
+  }
+
+  function renderContacts(contacts) {
+    $('contactGrid').innerHTML = (contacts || []).map(function (c) {
+      var band = bandOf(c.temperature), tn = toneOf(band), av = AV[band];
+      var pct = Math.round(((c.temperature + 1) / 2) * 100);
+      return '<div class="cc" title="' + esc(c.last_quote || '') + '">' +
+        '<div class="cc-top"><div class="cav" style="background:' + av[0] + ';color:' + av[1] + ';">' +
+        esc(initials(c.name)) + '</div>' +
+        '<div><div class="cname">' + esc(c.name) + '</div><div class="crole">' + esc(c.role || '') + '</div></div></div>' +
+        '<div class="tb"><div class="tf" style="width:' + pct + '%;background:' + tn.col + ';"></div></div>' +
+        '<div class="tl" style="color:' + tn.col + ';">' + esc(tn.label) + '</div></div>';
+    }).join('') || '<div class="crole">No scored contacts yet.</div>';
+  }
+
+  function renderDeadlines(radar) {
+    var items = (radar.deadlines || []).map(function (d) {
+      var col = d.status === 'missed' ? 'var(--esc)' : d.at_risk ? 'var(--con)' : 'var(--text-3)';
+      return { col:col, title:d.title,
+               meta:' · due ' + shortDate(d.due) + ' · ' + String(d.status).replace(/_/g, ' ') +
+                    ' · ' + (d.mentions || []).length + ' mention' + ((d.mentions || []).length === 1 ? '' : 's') };
+    }).concat((radar.risks || []).filter(function (r) { return (r.mentions || []).length; }).map(function (r) {
+      return { col:'var(--fru)', title:r.title,
+               meta:' · risk · ' + r.mentions.length + ' mention' + (r.mentions.length === 1 ? '' : 's') };
+    }));
+    $('dlList').innerHTML = items.map(function (it) {
+      return '<div class="dl-row"><div class="dl-dot" style="background:' + it.col + ';"></div>' +
+             '<div class="dl-txt"><strong>' + esc(it.title) + '</strong>' +
+             '<span class="dl-meta">' + esc(it.meta) + '</span></div></div>';
+    }).join('') || '<div class="dl-meta">No deadlines or risks recorded.</div>';
+  }
+
+  function renderBrief(b) {
+    $('brfSum').textContent = b.summary || '';
+    $('brfActs').innerHTML = (b.actions || []).map(function (a, i) {
+      return '<div class="ba"><span class="ba-n">' + (i + 1) + '.</span>' +
+             '<span class="ba-t">' + esc(a.text) + '</span>' +
+             '<span class="cite">' + esc((a.cites || []).join(', ')) + '</span></div>';
+    }).join('') || '<div class="dl-meta">No action could be evidenced against a message.</div>';
+    $('brfBadge').textContent = 'Generated ' + (hhmm(new Date().toISOString()) || '');
+  }
+
+  function setScan(health) {
+    var last = hhmm(health && health.last_scan), next = hhmm(health && health.next_scan);
+    $('scanText').textContent = last ? ('Last scan ' + last + (next ? ' · next ' + next : ''))
+                                     : (state.live ? 'Live · not yet scanned' : 'Stub data');
+    $('liveDot').style.background = state.live ? '' : 'var(--con)';
+  }
+
+  // --- load --------------------------------------------------------------
+  function load() {
+    return Promise.all([api('/timeline'), api('/radar'), api('/health').catch(function () { return null; })])
+      .then(function (r) {
+        state.live = true;
+        state.messages = r[0].messages || [];
+        state.engagement = r[0].engagement || {};
+        state.radar = r[1];
+        paint(r[2]);
+      })
+      .catch(function (e) {
+        // Live is not up (or the dataset has not landed). Fall back to the
+        // stub so the page is never blank - and say so, so nobody reads
+        // canned numbers as real.
+        console.warn('live unavailable:', e.message);
+        return Promise.all([api('/stub/timeline'), api('/stub/radar')]).then(function (r) {
+          state.live = false;
+          state.messages = r[0].messages || [];
+          state.engagement = r[0].engagement || {};
+          state.radar = r[1];
+          paint(null);
+          $('engName').textContent += '  (stub data)';
+        }).catch(function (e2) {
+          $('engName').textContent = 'Backend unreachable';
+          $('scanText').textContent = e2.message;
+        });
+      });
+  }
+
+  function paint(health) {
+    var e = state.engagement || {};
+    // project often already carries the client name; do not print it twice
+    var proj = e.project || '';
+    if (e.client && proj.indexOf(e.client) === 0) proj = proj.slice(e.client.length).replace(/^[\s—·-]+/, '');
+    $('engName').textContent = [e.client, proj].filter(Boolean).join(' · ') || 'Engagement';
+    renderChart(state.radar.trend, state.radar.deadlines);
+    renderMessages(state.messages);
+    renderContacts(state.radar.contacts);
+    renderDeadlines(state.radar);
+    setScan(health);
+  }
+
+  // --- actions -----------------------------------------------------------
+  document.querySelector('.btn-brief').addEventListener('click', function () {
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Thinking…';
+    $('brfSum').textContent = 'Generating the brief from the live backend…';
+    $('brfActs').innerHTML = '';
+    api(state.live ? '/brief' : '/stub/brief', { method:'POST' })
+      .then(renderBrief)
+      .catch(function (e) { $('brfSum').textContent = 'Brief failed: ' + e.message; })
+      .then(function () { btn.disabled = false; btn.textContent = 'Brief me'; });
   });
 
-  // Brief me scrolls to brief
-  document.querySelector('.btn-brief').addEventListener('click', () => {
-    document.querySelector('.brf-hdr').closest('.card')
-      .scrollIntoView({ behavior:'smooth', block:'center' });
-  });
-
-  // Ingest stub — echoes back until backend is live
-  document.getElementById('ingestBtn').addEventListener('click', () => {
-    const inp  = document.getElementById('ingestInput');
-    const text = inp.value.trim();
+  $('ingestBtn').addEventListener('click', function () {
+    var inp = $('ingestInput'), text = inp.value.trim();
     if (!text) { inp.focus(); return; }
-    const preview = text.length > 100 ? text.slice(0, 100) + '…' : text;
-    alert('Scoring:\n"' + preview + '"\n\n(Connect to POST /ingest for live scoring)');
-    inp.value = '';
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Scoring…';
+    api(state.live ? '/ingest' : '/stub/ingest', {
+      method:'POST',
+      body: JSON.stringify({
+        direction:'inbound', kind:'email', text: text,
+        subject:'Pasted during the demo',
+        date: new Date().toISOString().slice(0, 10),
+        contact:{ name:'Client contact', role:'Client', org:(state.engagement || {}).client || 'Client' }
+      })
+    }).then(function (res) {
+      inp.value = '';
+      if (res.message) state.messages = state.messages.concat([res.message]);
+      if (res.radar) state.radar = res.radar;
+      paint({ last_scan: res.last_scan });
+    }).catch(function (e) {
+      $('brfSum').textContent = 'Ingest failed: ' + e.message;
+    }).then(function () { btn.disabled = false; btn.textContent = 'Ingest'; });
   });
+
+  load();
 })();
 </script>
