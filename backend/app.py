@@ -10,9 +10,11 @@ time. Render's health check hits /health and must get an answer immediately.
 from __future__ import annotations
 
 import uuid
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
 
 import scoring
 import stub_data
@@ -29,6 +31,26 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+UI_FILE = Path(__file__).resolve().parent.parent / "ui" / "index.html"
+
+
+@app.get("/")
+def dashboard():
+    """The dashboard, served from the same origin as the API it reads.
+
+    One service, one deploy, and the page can talk to /radar without CORS
+    or a base-URL constant pointing somewhere else.
+    """
+    if not UI_FILE.exists():
+        return JSONResponse(
+            {"detail": f"dashboard not found at {UI_FILE}", "api": "/stub/radar"},
+            status_code=404,
+        )
+    # no-store: the page is edited during the build and must never be stale
+    return FileResponse(UI_FILE, media_type="text/html; charset=utf-8",
+                        headers={"Cache-Control": "no-store"})
 
 
 @app.get("/health")

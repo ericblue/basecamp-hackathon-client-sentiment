@@ -321,10 +321,22 @@ body {
 (function () {
   'use strict';
 
-  // One constant, per the architecture: flip this (or pass ?api=...) to move
-  // between local and deployed. Nothing else in the page knows the difference.
-  var API = new URLSearchParams(location.search).get('api')
-         || 'https://client-sentiment-radar.onrender.com';
+  // Where the API lives. Resolved once, then nothing else in the page knows
+  // the difference:
+  //   1. ?api=...            explicit override, always wins
+  //   2. same origin         when FastAPI is serving this page itself
+  //   3. the deployed URL    when opened from a static server or a file
+  var FALLBACK_API = 'https://client-sentiment-radar.onrender.com';
+  var API = new URLSearchParams(location.search).get('api');
+
+  function resolveApi() {
+    if (API !== null) return Promise.resolve(API);
+    if (!/^https?:$/.test(location.protocol)) { API = FALLBACK_API; return Promise.resolve(API); }
+    return fetch(location.origin + '/health')
+      .then(function (r) { API = r.ok ? location.origin : FALLBACK_API; })
+      .catch(function () { API = FALLBACK_API; })
+      .then(function () { return API; });
+  }
 
   var TONE = {
     positive:   { cls:'ch-con', col:'var(--pos)', label:'Positive'   },
@@ -541,7 +553,24 @@ body {
   }
 
   // --- load --------------------------------------------------------------
+  // Paint the stub immediately so the page is never blank, then replace it
+  // with live data when scoring finishes. On a cold start that first live
+  // call re-scores the whole dataset and can take the better part of a
+  // minute - a demo cannot stare at an empty screen that long.
+  function preload() {
+    return Promise.all([api('/stub/timeline'), api('/stub/radar')]).then(function (r) {
+      if (state.live) return;                       // live already won the race
+      state.messages = r[0].messages || [];
+      state.engagement = r[0].engagement || {};
+      state.radar = r[1];
+      paint(null);
+      $('scanText').textContent = 'loading live data…';
+      $('engName').textContent += '  (stub)';
+    }).catch(function () { /* stub unavailable too; load() will report */ });
+  }
+
   function load() {
+    preload();
     return Promise.all([api('/timeline'), api('/radar'), api('/health').catch(function () { return null; })])
       .then(function (r) {
         state.live = true;
@@ -617,6 +646,6 @@ body {
     }).then(function () { btn.disabled = false; btn.textContent = 'Ingest'; });
   });
 
-  load();
+  resolveApi().then(load);
 })();
 </script>
