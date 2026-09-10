@@ -1,0 +1,15 @@
+{
+  "client": "Northwind Retail",
+  "project": "Workday HCM rollout",
+  "contacts": [
+    {"name": "Dana Whitfield", "role": "CFO", "org": "Northwind Retail"},
+    {"name": "Marcus Reyes", "role": "Program Director", "org": "Northwind Retail"}
+  ],
+  "deadlines": [
+    {"id": "D-1", "title": "Payroll data migration", "due": "2026-05-19", "status": "missed"},
+    {"id": "D-2", "title": "Phase 1 go-live", "due": "2026-06-15", "status": "at_risk"}
+  ],
+  "risks": [
+    {"id": "R-1", "title": "Legacy payroll data quality", "severity": "high"}
+  ]
+}

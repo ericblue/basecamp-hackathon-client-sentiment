@@ -1,0 +1,21 @@
+[
+  {"id": "E-1", "thread_id": "TH-1", "kind": "email", "direction": "inbound",
+   "contact": {"name": "Marcus Reyes", "role": "Program Director", "org": "Northwind Retail"},
+   "date": "2026-04-14", "subject": "Kickoff",
+   "text": "Genuinely good session yesterday. My team came out of it more confident than they went in, which is not what I expected. Thank you."},
+
+  {"id": "E-2", "thread_id": "TH-1", "kind": "email", "direction": "outbound",
+   "contact": {"name": "Account Team", "role": "Engagement Lead", "org": "Us"},
+   "date": "2026-04-15", "subject": "Re: Kickoff",
+   "text": "Glad it landed. We will need payroll field sign-off by the 24th to hold the May 19 migration date."},
+
+  {"id": "E-11", "thread_id": "TH-2", "kind": "email", "direction": "inbound",
+   "contact": {"name": "Marcus Reyes", "role": "Program Director", "org": "Northwind Retail"},
+   "date": "2026-05-20", "subject": "Migration date",
+   "text": "So we have missed the 19th. I raised the earning-code gap on the 28th and again on the status call. What I need now is not reassurance, it is a dated plan I can hand to Dana."},
+
+  {"id": "E-14", "thread_id": "TH-2", "kind": "email", "direction": "inbound",
+   "contact": {"name": "Dana Whitfield", "role": "CFO", "org": "Northwind Retail"},
+   "date": "2026-05-21", "subject": "Thursday steering call",
+   "text": "I have asked our COO to join Thursday. Before that call I want a written view on whether the June 15 go-live is still credible, and what the contractual position is if it is not."}
+]
