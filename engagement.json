@@ -1,0 +1,176 @@
+{
+  "engagement_id": "meridian-holdings-2026",
+  "client": "Meridian Holdings",
+  "engagement_name": "Meridian Holdings \u2014 Multi-Workstream Advisory Engagement",
+  "workstreams": [
+    {
+      "id": "atlas",
+      "name": "Workstream Atlas",
+      "description": "Cloud Migration Program"
+    },
+    {
+      "id": "beacon",
+      "name": "Workstream Beacon",
+      "description": "Enterprise Data Governance Rollout"
+    },
+    {
+      "id": "cascade",
+      "name": "Workstream Cascade",
+      "description": "Customer Analytics Platform Build"
+    },
+    {
+      "id": "delta",
+      "name": "Workstream Delta",
+      "description": "Legacy System Integration"
+    }
+  ],
+  "contacts": [
+    {
+      "id": "david-okafor",
+      "name": "David Okafor",
+      "title": "IT Director",
+      "org": "client",
+      "workstream_id": "atlas"
+    },
+    {
+      "id": "priya-nair",
+      "name": "Priya Nair",
+      "title": "Data Governance Lead",
+      "org": "client",
+      "workstream_id": "beacon"
+    },
+    {
+      "id": "marcus-webb",
+      "name": "Marcus Webb",
+      "title": "Analytics Manager",
+      "org": "client",
+      "workstream_id": "cascade"
+    },
+    {
+      "id": "elena-vasquez",
+      "name": "Elena Vasquez",
+      "title": "Program Sponsor",
+      "org": "client",
+      "workstream_id": "delta"
+    },
+    {
+      "id": "engagement-team",
+      "name": "Engagement Team",
+      "title": "Deloitte distribution alias",
+      "org": "deloitte",
+      "workstream_id": null
+    },
+    {
+      "id": "engagement-lead",
+      "name": "Engagement Lead",
+      "title": "Engagement Lead",
+      "org": "deloitte",
+      "workstream_id": null
+    },
+    {
+      "id": "engagement-partner",
+      "name": "Engagement Partner",
+      "title": "Engagement Partner",
+      "org": "deloitte",
+      "workstream_id": null
+    },
+    {
+      "id": "cloud-architect",
+      "name": "Cloud Architect",
+      "title": "Cloud Architect",
+      "org": "deloitte",
+      "workstream_id": "atlas"
+    },
+    {
+      "id": "data-governance-analyst",
+      "name": "Data Governance Analyst",
+      "title": "Data Governance Analyst",
+      "org": "deloitte",
+      "workstream_id": "beacon"
+    },
+    {
+      "id": "data-scientist",
+      "name": "Data Scientist",
+      "title": "Data Scientist",
+      "org": "deloitte",
+      "workstream_id": "cascade"
+    }
+  ],
+  "risks": [
+    {
+      "id": "R-CASCADE-01",
+      "workstream_id": "cascade",
+      "title": "Churn model missing updated segments agreed 3 weeks earlier",
+      "opened_date": "2026-07-28",
+      "status": "open"
+    },
+    {
+      "id": "R-CASCADE-02",
+      "workstream_id": "cascade",
+      "title": "Delivery now two sprints behind the original plan",
+      "opened_date": "2026-08-12",
+      "status": "open"
+    },
+    {
+      "id": "R-CASCADE-03",
+      "workstream_id": "cascade",
+      "title": "Client skepticism remains despite delivered recovery plan; watching for sustained delivery",
+      "opened_date": "2026-09-02",
+      "status": "open"
+    },
+    {
+      "id": "R-DELTA-01",
+      "workstream_id": "delta",
+      "title": "Repeated missed integration test windows",
+      "opened_date": "2026-07-08",
+      "status": "open"
+    },
+    {
+      "id": "R-DELTA-02",
+      "workstream_id": "delta",
+      "title": "API mapping defect known internally but not proactively disclosed to client",
+      "opened_date": "2026-07-22",
+      "status": "open"
+    },
+    {
+      "id": "R-DELTA-03",
+      "workstream_id": "delta",
+      "title": "No milestone delivered on time since May; client evaluating restructuring scope",
+      "opened_date": "2026-08-22",
+      "status": "escalated"
+    },
+    {
+      "id": "R-DELTA-04",
+      "workstream_id": "delta",
+      "title": "Client leadership evaluating whether to replace the vendor on this workstream",
+      "opened_date": "2026-09-02",
+      "status": "escalated"
+    }
+  ],
+  "deadlines": [
+    {
+      "id": "D-CASCADE-01",
+      "workstream_id": "cascade",
+      "title": "Deliver a concrete recovery plan with named owners and dates",
+      "due_date": "2026-08-31",
+      "status": "met",
+      "related_risk_id": "R-CASCADE-02"
+    },
+    {
+      "id": "D-DELTA-01",
+      "workstream_id": "delta",
+      "title": "Provide a root cause analysis to the client",
+      "due_date": "2026-07-29",
+      "status": "met",
+      "related_risk_id": "R-DELTA-02"
+    },
+    {
+      "id": "D-DELTA-02",
+      "workstream_id": "delta",
+      "title": "Present a revised plan and restructuring options at the QBR",
+      "due_date": "2026-08-31",
+      "status": "met",
+      "related_risk_id": "R-DELTA-03"
+    }
+  ]
+}
