@@ -92,6 +92,35 @@ class Radar(BaseModel):
     risks: list[RiskStatus] = Field(default_factory=list)
 
 
+class Alert(BaseModel):
+    """What the routine posts to Slack, or the UI renders as a banner."""
+    id: str
+    at: str
+    kind: Literal["escalation", "trend_drop", "brief"]
+    severity: Literal["high", "medium", "info"] = "info"
+    text: str
+    contact: Optional[str] = None
+    quote: Optional[str] = None          # the client's own words, always
+    message_ids: list[str] = Field(default_factory=list)
+
+
+class RunRecord(BaseModel):
+    """One line of the run log — §5a step 5."""
+    at: str
+    new_messages: list[str] = Field(default_factory=list)
+    alerts_fired: int = 0
+    note: str = ""
+
+
+class RadarDiff(BaseModel):
+    """What moved since the previous scan — §5a step 3."""
+    avg_score_delta: Optional[float] = None
+    latest_week: Optional[str] = None
+    contacts_crossed_escalating: list[str] = Field(default_factory=list)
+    deadlines_newly_at_risk: list[str] = Field(default_factory=list)
+    first_run: bool = False
+
+
 class Action(BaseModel):
     text: str
     cites: list[str] = Field(default_factory=list)
@@ -127,3 +156,15 @@ class IngestRequest(BaseModel):
     date: str
     text: str
     subject: Optional[str] = None
+
+
+class ScanResult(BaseModel):
+    """The whole point of POST /scan: one call tells the routine everything
+    it needs to decide whether to reach out."""
+    new_messages: list[Message] = Field(default_factory=list)
+    alerts: list[Alert] = Field(default_factory=list)
+    diff: RadarDiff
+    radar: Radar
+    last_scan: str
+    next_scan: str
+    run: RunRecord

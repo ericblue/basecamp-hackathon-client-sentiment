@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import scoring
 import stub_data
-from models import Brief, IngestRequest, Message, Radar
+from models import Alert, Brief, IngestRequest, Message, Radar, RunRecord, ScanResult
 
 app = FastAPI(title="Client Sentiment Radar", version="0.1")
 
@@ -34,7 +34,12 @@ app.add_middleware(
 @app.get("/health")
 def health() -> dict:
     """Render's health check. Never touches data or the model."""
-    return {"ok": True, "last_scan": scoring.last_scan()}
+    return {
+        "ok": True,
+        "last_scan": scoring.last_scan(),
+        "next_scan": scoring.next_scan(),
+        "runs": len(scoring.runs()),
+    }
 
 
 # --- stubs (live from minute 10) -------------------------------------------
@@ -72,6 +77,25 @@ def stub_ingest(msg: IngestRequest) -> dict:
         },
         "radar": stub_data.RADAR,
     }
+
+
+@app.post("/stub/scan")
+def stub_scan() -> dict:
+    """A canned scan that always looks like the demo moment: one new
+    escalating message from the CFO, one alert, the line moving."""
+    return stub_data.SCAN
+
+
+@app.get("/stub/alerts")
+def stub_alerts() -> dict:
+    return {"alerts": stub_data.SCAN["alerts"],
+            "last_scan": stub_data.SCAN["last_scan"],
+            "next_scan": stub_data.SCAN["next_scan"]}
+
+
+@app.get("/stub/runs")
+def stub_runs() -> dict:
+    return {"runs": [stub_data.SCAN["run"]]}
 
 
 # --- live ------------------------------------------------------------------
@@ -126,4 +150,38 @@ def ingest(msg: IngestRequest) -> dict:
         "message": scored.model_dump(exclude_none=True),
         "radar": scoring.build_radar(engagement, messages).model_dump(),
         "last_scan": scoring.last_scan(),
+    }
+
+
+# --- the always-on half (§5a) ----------------------------------------------
+
+@app.post("/scan", response_model=ScanResult)
+def scan() -> ScanResult:
+    """What the Claude Routine calls on each run. Pulls anything new out of
+    data/, scores it, diffs the radar against the previous scan, and returns
+    the alerts worth reaching out about. Idempotent: a scan with nothing new
+    returns no alerts rather than repeating the last ones."""
+    try:
+        return scoring.scan()
+    except scoring.DataUnavailable as e:
+        raise HTTPException(503, f"{e}. Use /stub/scan until the dataset lands.")
+
+
+@app.get("/alerts")
+def alerts() -> dict:
+    """What the UI banner reads. Most recent first."""
+    return {
+        "alerts": [a.model_dump() for a in scoring.alerts()],
+        "last_scan": scoring.last_scan(),
+        "next_scan": scoring.next_scan(),
+    }
+
+
+@app.get("/runs")
+def runs() -> dict:
+    """The run log — §5a step 5, the source for 'last scan 07:02, next 08:00'."""
+    return {
+        "runs": [r.model_dump() for r in scoring.runs()],
+        "last_scan": scoring.last_scan(),
+        "next_scan": scoring.next_scan(),
     }

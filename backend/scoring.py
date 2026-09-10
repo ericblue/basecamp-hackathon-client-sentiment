@@ -17,7 +17,7 @@ import re
 import statistics
 import threading
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import anthropic
@@ -26,6 +26,7 @@ from dotenv import load_dotenv
 import prompts
 from models import (
     Action,
+    Alert,
     Brief,
     BriefResult,
     ContactTemperature,
@@ -33,7 +34,10 @@ from models import (
     Engagement,
     Message,
     Radar,
+    RadarDiff,
     RiskStatus,
+    RunRecord,
+    ScanResult,
     ScoreResult,
     TrendPoint,
 )
@@ -43,6 +47,10 @@ load_dotenv()
 DATA_DIR = Path(os.getenv("DATA_DIR", Path(__file__).resolve().parent.parent / "data"))
 SCORING_MODEL = os.getenv("SCORING_MODEL", "claude-sonnet-5")
 BRIEF_MODEL = os.getenv("BRIEF_MODEL", "claude-sonnet-5")
+SCAN_INTERVAL_MIN = int(os.getenv("SCAN_INTERVAL_MIN", "60"))
+
+# Alert thresholds — §5a step 4.
+TREND_DROP = float(os.getenv("TREND_DROP", "0.3"))
 
 # The SDK picks up ANTHROPIC_API_KEY and, if set, ANTHROPIC_BASE_URL — the
 # latter matters only if the Base Camp key is a gateway key rather than a
@@ -97,9 +105,34 @@ _extra: list[Message] = []                # messages added via /ingest
 _lock = threading.Lock()
 _last_scan: str | None = None
 
+# Scan state. Process memory, like everything else here: a Render restart
+# resets the baseline and the next scan will see every message as new. The
+# durable copy is whatever the routine writes back to the repo.
+_seen: set[str] = set()
+_prev_radar: Radar | None = None
+_alerts: list[Alert] = []
+_runs: list[RunRecord] = []
+
 
 def last_scan() -> str | None:
     return _last_scan
+
+
+def next_scan() -> str | None:
+    if not _last_scan:
+        return None
+    return (datetime.fromisoformat(_last_scan)
+            + timedelta(minutes=SCAN_INTERVAL_MIN)).isoformat(timespec="seconds")
+
+
+def alerts() -> list[Alert]:
+    with _lock:
+        return list(reversed(_alerts))
+
+
+def runs() -> list[RunRecord]:
+    with _lock:
+        return list(reversed(_runs))
 
 
 def score_message(m: Message, ref_ids: list[str]) -> ScoreResult | None:
@@ -259,3 +292,117 @@ _TAG = re.compile(r"</?[A-Za-z_][\w:-]*\s*/?>")
 
 def _strip_tags(text: str) -> str:
     return _TAG.sub("", text).strip()
+
+
+# --- the always-on half (§5a) ----------------------------------------------
+
+def diff_radar(prev: Radar | None, now: Radar, new_msgs: list[Message]) -> RadarDiff:
+    """What moved since the previous scan. §5a step 3."""
+    if prev is None:
+        return RadarDiff(
+            first_run=True,
+            latest_week=now.trend[-1].week if now.trend else None,
+        )
+
+    latest_week = now.trend[-1].week if now.trend else None
+    delta = None
+    if now.trend:
+        before = next((t.avg_score for t in prev.trend if t.week == latest_week), None)
+        if before is None and prev.trend:
+            before = prev.trend[-1].avg_score          # the week is itself new
+        if before is not None:
+            delta = round(now.trend[-1].avg_score - before, 3)
+
+    # Any NEW escalating message is news — including from a contact who was
+    # already cold. A CFO escalating a second time, harder, is exactly the
+    # thing to wake someone for; comparing against her prior temperature
+    # suppressed the alert and made the demo moment silent. Repetition is
+    # already prevented upstream: a message is only ever new once.
+    crossed = sorted({m.contact.name for m in new_msgs if m.tone == "escalating"})
+
+    prev_at_risk = {d.id for d in prev.deadlines if d.at_risk}
+    newly = sorted({d.id for d in now.deadlines if d.at_risk and d.id not in prev_at_risk})
+
+    return RadarDiff(
+        avg_score_delta=delta,
+        latest_week=latest_week,
+        contacts_crossed_escalating=crossed,
+        deadlines_newly_at_risk=newly,
+    )
+
+
+def build_alerts(diff: RadarDiff, new_msgs: list[Message], stamp: str) -> list[Alert]:
+    """§5a step 4: reach out only when something moved. Every alert carries
+    the client's own quote and the message ids behind it — an alert we
+    cannot evidence is an alert we do not send."""
+    out: list[Alert] = []
+
+    for name in diff.contacts_crossed_escalating:
+        driver = next(
+            (m for m in reversed(new_msgs) if m.contact.name == name and m.tone == "escalating"),
+            None,
+        )
+        if not driver or not driver.quote:
+            continue          # no quote, no alert
+        out.append(Alert(
+            id=f"A-{len(_alerts) + len(out) + 1}",
+            at=stamp, kind="escalation", severity="high",
+            text=f"{name} ({driver.contact.role}) has turned escalating.",
+            contact=name, quote=driver.quote, message_ids=[driver.id],
+        ))
+
+    if diff.avg_score_delta is not None and diff.avg_score_delta <= -TREND_DROP:
+        scored_new = [m for m in new_msgs if m.score is not None]
+        worst = min(scored_new, key=lambda m: m.score, default=None)
+        out.append(Alert(
+            id=f"A-{len(_alerts) + len(out) + 1}",
+            at=stamp, kind="trend_drop", severity="medium",
+            text=(f"Weekly average fell {abs(diff.avg_score_delta)} "
+                  f"in {diff.latest_week}."),
+            contact=worst.contact.name if worst else None,
+            quote=worst.quote if worst else None,
+            message_ids=[m.id for m in scored_new],
+        ))
+
+    return out
+
+
+def scan() -> ScanResult:
+    """One call the routine can build on: pull, score, compare, decide.
+
+    §5a has the routine call /ingest per message and diff /radar itself.
+    Doing it in one endpoint keeps scoring in one place (which is what that
+    instruction protects) and leaves the routine four HTTP calls instead of
+    N+2.
+    """
+    global _prev_radar
+
+    engagement, messages = scored_timeline()      # scores anything unscored
+    stamp = _last_scan or datetime.now().astimezone().isoformat(timespec="seconds")
+
+    with _lock:
+        known = set(_seen)
+    new_msgs = [m for m in messages if m.id not in known]
+
+    radar = build_radar(engagement, messages)
+    diff = diff_radar(_prev_radar, radar, new_msgs)
+    fired = build_alerts(diff, new_msgs, stamp)
+
+    record = RunRecord(
+        at=stamp,
+        new_messages=[m.id for m in new_msgs],
+        alerts_fired=len(fired),
+        note=("first run — baseline recorded, no alerts" if diff.first_run
+              else f"{len(new_msgs)} new, {len(fired)} alert(s)"),
+    )
+
+    with _lock:
+        _seen.update(m.id for m in messages)
+        _alerts.extend(fired)
+        _runs.append(record)
+    _prev_radar = radar
+
+    return ScanResult(
+        new_messages=new_msgs, alerts=fired, diff=diff, radar=radar,
+        last_scan=stamp, next_scan=next_scan() or stamp, run=record,
+    )

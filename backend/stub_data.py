@@ -155,3 +155,47 @@ BRIEF = {
          "cites": ["E-5"]},
     ],
 }
+
+
+# The canned scan — what POST /stub/scan returns. Shaped exactly like a live
+# ScanResult so Lane D can write and test the routine before scoring is up.
+SCAN = {
+    "new_messages": [
+        {
+            "id": "E-21", "thread_id": "TH-3", "kind": "email", "direction": "inbound",
+            "contact": {"name": "Dana Whitfield", "role": "CFO", "org": "Northwind Retail"},
+            "date": "2026-05-26", "subject": "Escalation",
+            "text": "I am copying our General Counsel on this thread. Before Thursday I "
+                    "want the contractual position in writing.",
+            "score": -0.92, "tone": "escalating",
+            "quote": "I am copying our General Counsel on this thread",
+            "refs": ["D-2"],
+        }
+    ],
+    "alerts": [
+        {
+            "id": "A-1", "at": "2026-05-26T07:02:00-07:00",
+            "kind": "escalation", "severity": "high",
+            "text": "Dana Whitfield (CFO) has turned escalating.",
+            "contact": "Dana Whitfield",
+            "quote": "I am copying our General Counsel on this thread",
+            "message_ids": ["E-21"],
+        }
+    ],
+    "diff": {
+        "avg_score_delta": -0.34,
+        "latest_week": "2026-W22",
+        "contacts_crossed_escalating": ["Dana Whitfield"],
+        "deadlines_newly_at_risk": ["D-2"],
+        "first_run": False,
+    },
+    "radar": RADAR,
+    "last_scan": "2026-05-26T07:02:00-07:00",
+    "next_scan": "2026-05-26T08:02:00-07:00",
+    "run": {
+        "at": "2026-05-26T07:02:00-07:00",
+        "new_messages": ["E-21"],
+        "alerts_fired": 1,
+        "note": "1 new, 1 alert(s)",
+    },
+}
