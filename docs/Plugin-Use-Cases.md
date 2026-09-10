@@ -4,7 +4,7 @@ What people can ask the radar from Claude Code or Cowork once the plugin is inst
 
 ## Why this is an always-on agent
 
-The radar has two halves. A scheduled scan reads the shared mailbox and transcript folder every morning, scores anything new from the client, updates the trend, and posts a brief when something moved. The plugin is the on-demand half: a person asks a question in the tool they already have open, and the answer comes from the same scored store. Neither half needs the other to be watched. That is the always-on pattern: unattended reading of a growing source, evidence-backed alerts, and a way for humans to interrogate it without opening another app.
+The radar has two halves. A Claude Routine (scheduled task) reads the shared mailbox and transcript folder every morning, scores anything new from the client, updates the trend, and posts a brief when something moved. The plugin is the on-demand half: a person asks a question in the tool they already have open, and the answer comes from the same scored store. Neither half needs the other to be watched. That is the always-on pattern: unattended reading of a growing source, evidence-backed alerts, and a way for humans to interrogate it without opening another app.
 
 ## Tools the plugin exposes
 
