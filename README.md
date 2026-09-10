@@ -23,7 +23,7 @@ Account leads find out a client is unhappy late, when it reaches an escalation e
 ## Architecture
 
 ```
-data/                      synthetic engagement: emails/*.json, transcripts/*.md, engagement.json
+data/                      synthetic engagement: emails/*.json, transcripts/*.json (turn records), engagement.json
 backend/  (FastAPI)        scores client messages with Claude (structured output), caches, serves:
                            GET /timeline  GET /radar  POST /brief  POST /ingest  GET /stub/*
 ui/       (Vite+React+TS)  trend line, contact grid, message feed, brief panel; one base URL
@@ -45,7 +45,9 @@ Radar     { trend[{week,avg_score,n}], contacts[{name,role,temperature,last_quot
 Brief     { summary, actions[{text, cites[]}] }
 ```
 
-Only `direction: inbound` messages and client speaker turns in transcripts get `score`, `tone` and `quote`.
+Only `direction: inbound` messages get `score`, `tone` and `quote`.
+
+Transcripts are stored pre-split as turn records in the same `Message` shape, not as whole files: `kind: "transcript_turn"`, `thread_id` = the meeting id, plus `meeting: {title, date}` denormalised on each turn and `seq` for order. A client's turn is `direction: inbound`, ours is `outbound`, so the scorer filters transcripts exactly the way it filters email. The data lane generates each meeting as an array of turns in one Claude call; a readable transcript, if wanted for the demo, is rendered from the turns rather than stored twice.
 
 ## Running it
 

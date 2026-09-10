@@ -15,7 +15,7 @@ Primary user: the engagement or account lead, Monday morning, before the weekly 
 ## 3. What it does (MVP, in the hour)
 
 1. Ingest a folder of engagement communications: client emails, meeting transcripts, and an engagement file with deadlines, milestones, risks, and contacts.
-2. Score each client message: sentiment score (-1 to 1), tone label (positive, neutral, concerned, frustrated, escalating), the one quote that drove the score, and any deadline or risk it references.
+2. Score each client message (inbound email or a client's turn in a transcript): sentiment score (-1 to 1), tone label (positive, neutral, concerned, frustrated, escalating), the one quote that drove the score, and any deadline or risk it references.
 3. Roll up: trend over time, temperature per client contact, risks and deadlines with the messages that mention them.
 4. Brief: one paragraph of "what the account lead should know" plus three recommended actions, each citing the messages behind it.
 5. Live ingest: drop in a new message and watch the radar move (the always-on story).
@@ -30,7 +30,7 @@ Open on the radar for one fictional engagement over six weeks: warm early, a dip
 
 Three parts, each buildable alone against a fixed contract.
 
-Data repo. A folder (pushed to a GitHub repo so it matches the Track 1 pattern): `emails/*.json`, `transcripts/*.md`, `engagement.json`. Synthetic, one fictional client, one engagement, a deliberate tone arc.
+Data repo. A folder (pushed to a GitHub repo so it matches the Track 1 pattern): `emails/*.json`, `transcripts/*.json`, `engagement.json`. Synthetic, one fictional client, one engagement, a deliberate tone arc. Transcripts are stored pre-split as turn records in the same `Message` shape as emails (one JSON array per meeting), not as prose files. This keeps the scorer to one input type, makes "client words only" a filter on `direction` rather than a parsing job, and gives the UI nothing new to render: a turn is an email row with a meeting title where the subject would be.
 
 Backend. Python, FastAPI, Anthropic SDK, running from the Basecamp venv with the existing key. One scoring function using structured outputs (JSON schema) on Sonnet; results cached in memory so the UI is fast. Endpoints:
 
@@ -52,6 +52,8 @@ Message {
   direction: "inbound" | "outbound",
   contact: { name, role, org },
   date, subject?, text,
+  meeting?: { title, date },   // transcript_turn only, denormalised on each turn
+  seq?: number,                // transcript_turn only, order within the meeting
   score?: number,        // only when direction == inbound
   tone?: "positive"|"neutral"|"concerned"|"frustrated"|"escalating",
   quote?: string,

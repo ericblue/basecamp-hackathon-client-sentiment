@@ -17,9 +17,9 @@ Four people, sixty minutes, four lanes. Each lane has an owner, a deliverable, t
 
 Owner: one Deloitte dev (the one closest to the client-side story; HR or Workday domain knowledge is an asset here).
 
-Deliverable: the synthetic engagement. One fictional client, one project (a Workday rollout works well for this team), six weeks, with a deliberate arc: warm, then a missed deadline, then a cooling CFO, then partial recovery. About 25 to 30 emails in four or five threads (mark each inbound or outbound), three meeting transcripts with speaker labels, and `engagement.json` with contacts, deadlines, milestones and risks. Every risk and deadline should be mentioned by at least two client messages so the roll-up has something to join.
+Deliverable: the synthetic engagement. One fictional client, one project (a Workday rollout works well for this team), six weeks, with a deliberate arc: warm, then a missed deadline, then a cooling CFO, then partial recovery. About 25 to 30 emails in four or five threads (mark each inbound or outbound), three meetings stored as arrays of turn records in the `Message` shape (six to ten client turns each, `direction` set per speaker, `meeting` and `seq` on every turn; see the README), and `engagement.json` with contacts, deadlines, milestones and risks. Every risk and deadline should be mentioned by at least two client messages so the roll-up has something to join.
 
-Method: write the arc and the cast on paper first (ten minutes), then have Claude generate the messages from that outline in the contract's JSON shape. Do not hand-write emails.
+Method: write the arc and the cast on paper first (ten minutes), then have Claude generate the messages from that outline in the contract's JSON shape, one call per thread and one call per meeting ("write this meeting as an array of turn records in this shape"). Do not hand-write emails or prose transcripts.
 
 Hands off: a first ten messages by minute 10 so Lane B can score real text; the full set by minute 30.
 
