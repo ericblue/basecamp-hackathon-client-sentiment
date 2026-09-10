@@ -1,0 +1,538 @@
+<title>Client Sentiment Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:         #F4F6F9;
+  --surface:    #FFFFFF;
+  --surface-2:  #EEF1F5;
+  --border:     #DDE1E8;
+  --text-1:     #0F1117;
+  --text-2:     #555E70;
+  --text-3:     #9AA3B2;
+  --brand:      #147D6F;
+  --brand-lt:   #EBF5F3;
+  --esc:        #C8211A;
+  --fru:        #C25209;
+  --con:        #B45309;
+  --pos:        #147D6F;
+  --chart-line: #147D6F;
+  --chart-grid: #E5E8ED;
+  --chart-zero: #C5CAD6;
+  --chart-ev:   #B0B8C8;
+  --chart-miss: #C8211A;
+  --shadow:     0 1px 3px rgba(15,17,23,.08), 0 1px 2px rgba(15,17,23,.04);
+  --r: 10px; --r-sm: 7px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0D1017; --surface:#161B24; --surface-2:#1D2330; --border:#28303E;
+    --text-1:#EDF0F5; --text-2:#8892A4; --text-3:#4D5868;
+    --brand:#1EB89E; --brand-lt:#0A2520;
+    --esc:#F87171; --fru:#FB923C; --con:#FBBF24; --pos:#1EB89E;
+    --chart-line:#1EB89E; --chart-grid:#1D2A3A; --chart-zero:#2A3648;
+    --chart-ev:#3A4A5E; --chart-miss:#F87171;
+    --shadow:0 1px 4px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0D1017; --surface:#161B24; --surface-2:#1D2330; --border:#28303E;
+  --text-1:#EDF0F5; --text-2:#8892A4; --text-3:#4D5868;
+  --brand:#1EB89E; --brand-lt:#0A2520;
+  --esc:#F87171; --fru:#FB923C; --con:#FBBF24; --pos:#1EB89E;
+  --chart-line:#1EB89E; --chart-grid:#1D2A3A; --chart-zero:#2A3648;
+  --chart-ev:#3A4A5E; --chart-miss:#F87171;
+  --shadow:0 1px 4px rgba(0,0,0,.4);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  font-size:14px; line-height:1.5;
+  background:var(--bg); color:var(--text-1);
+}
+
+/* ── HEADER ── */
+.hdr {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:0 28px; height:60px;
+  display:flex; align-items:center; gap:10px;
+  position:sticky; top:0; z-index:50;
+}
+.logo { display:flex; align-items:center; gap:9px; flex-shrink:0; margin-right:6px; }
+.logo-text { font-size:17px; font-weight:700; letter-spacing:-.3px; color:var(--text-1); }
+.h-gap { flex:1; }
+.eng-btn {
+  display:inline-flex; align-items:center; gap:6px; padding:7px 13px;
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  font-family:inherit; font-size:13.5px; font-weight:500; color:var(--text-1);
+  cursor:pointer; white-space:nowrap;
+}
+.eng-btn:hover { background:var(--surface-2); }
+.scan-pill {
+  display:inline-flex; align-items:center; gap:7px; padding:7px 13px;
+  background:var(--surface-2); border-radius:8px; font-size:12.5px; color:var(--text-2); white-space:nowrap;
+}
+.live-dot { width:7px; height:7px; background:#22C55E; border-radius:50%; flex-shrink:0; }
+.btn-brief {
+  padding:8px 18px; background:var(--text-1); color:var(--surface);
+  border:none; border-radius:8px; font-family:inherit; font-size:14px;
+  font-weight:600; cursor:pointer; white-space:nowrap; transition:opacity .15s;
+}
+.btn-brief:hover { opacity:.82; }
+
+/* ── LAYOUT ── */
+.page {
+  max-width:1320px; margin:0 auto; padding:20px 24px 36px;
+  display:grid; grid-template-columns:1fr 396px; gap:16px; align-items:start;
+}
+.left  { display:flex; flex-direction:column; gap:14px; }
+.right { display:flex; flex-direction:column; gap:14px; }
+.card  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); box-shadow:var(--shadow); overflow:hidden; }
+.sec-hdr { padding:13px 18px; font-size:13.5px; font-weight:600; color:var(--text-1); border-bottom:1px solid var(--border); }
+
+/* ── CHART ── */
+.chart-pad { padding:20px 20px 12px; }
+.chart-title { font-size:13.5px; font-weight:600; color:var(--text-1); margin-bottom:14px; }
+.chart-outer { position:relative; }
+.chart-svg { width:100%; display:block; overflow:visible; }
+.chart-legend { display:flex; align-items:center; gap:7px; margin-top:10px; font-size:11.5px; color:var(--text-3); }
+.leg-line { width:22px; height:2px; background:var(--chart-line); border-radius:1px; flex-shrink:0; }
+
+.c-tip {
+  position:absolute; pointer-events:none;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:10px 13px; box-shadow:var(--shadow);
+  font-size:12px; min-width:140px;
+  opacity:0; transform:translateY(-3px); transition:opacity .12s,transform .12s; z-index:20;
+}
+.c-tip.show { opacity:1; transform:translateY(0); }
+.tt-lbl  { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-3); margin-bottom:5px; }
+.tt-sc   { font-size:22px; font-weight:700; line-height:1; color:var(--text-1); font-variant-numeric:tabular-nums; }
+.tt-tone { font-size:11.5px; font-weight:600; margin-top:4px; }
+.tt-n    { font-size:11px; color:var(--text-3); margin-top:2px; }
+
+/* ── MESSAGES ── */
+.msg-row {
+  display:grid; grid-template-columns:112px 34px 1fr 60px;
+  align-items:start; column-gap:11px; padding:12px 18px;
+  border-bottom:1px solid var(--border); cursor:pointer; transition:background .1s;
+}
+.msg-row:last-child { border-bottom:none; }
+.msg-row:hover { background:var(--surface-2); }
+.chip {
+  align-self:center; display:inline-flex; align-items:center; justify-content:center;
+  padding:3px 8px; border-radius:5px; font-size:10px; font-weight:700;
+  letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;
+}
+.ch-esc { background:var(--esc); color:#fff; }
+.ch-fru { background:var(--fru); color:#fff; }
+.ch-con { background:var(--con); color:#fff; }
+.ch-rep { background:var(--surface-2); color:var(--text-3); border:1px solid var(--border); }
+.ch-trn { background:#EDE9FE; color:#5B21B6; border:1px solid #DDD6FE; }
+.ch-trn-dark { background:#2D1B69; color:#A78BFA; border:1px solid #4C1D95; }
+.av {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; align-self:center; flex-shrink:0;
+}
+.mb { min-width:0; }
+.mb-who  { font-size:12.5px; font-weight:600; color:var(--text-1); }
+.mb-role { font-weight:400; color:var(--text-2); }
+.mb-subj { font-size:12.5px; font-weight:500; color:var(--text-1); margin-top:1px; }
+.mb-q    { font-size:12px; color:var(--text-2); font-style:italic; margin-top:2px; line-height:1.4; }
+.msg-date { font-size:11.5px; color:var(--text-3); text-align:right; padding-top:2px; font-variant-numeric:tabular-nums; }
+
+/* ── CONTACTS (3-col) ── */
+.cg { display:grid; grid-template-columns:1fr 1fr 1fr; }
+.cc {
+  padding:14px 14px; display:flex; flex-direction:column; gap:8px;
+  border-right:1px solid var(--border);
+}
+.cc:last-child { border-right:none; }
+.cc-top { display:flex; align-items:center; gap:9px; }
+.cav { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+.cname { font-size:12.5px; font-weight:600; color:var(--text-1); line-height:1.3; }
+.crole { font-size:11px; color:var(--text-2); line-height:1.3; }
+.tb { height:5px; background:var(--surface-2); border-radius:3px; overflow:hidden; }
+.tf { height:100%; border-radius:3px; }
+.tl { font-size:11px; font-weight:700; }
+
+/* ── DEADLINES ── */
+.dl-list { padding:14px 18px; display:flex; flex-direction:column; gap:11px; }
+.dl-row  { display:flex; align-items:flex-start; gap:9px; }
+.dl-dot  { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+.dl-txt  { font-size:12.5px; color:var(--text-1); line-height:1.45; }
+.dl-meta { color:var(--text-3); font-size:12px; }
+
+/* ── BRIEF ── */
+.brf-hdr { padding:13px 16px 11px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+.brf-title { font-size:13.5px; font-weight:600; }
+.brf-badge { font-size:10.5px; font-weight:600; color:var(--brand); background:var(--brand-lt); padding:2px 8px; border-radius:4px; letter-spacing:.02em; }
+.brf-sum { padding:13px 16px; font-size:12.5px; color:var(--text-2); line-height:1.65; border-bottom:1px solid var(--border); }
+.brf-acts { padding:11px 16px; display:flex; flex-direction:column; gap:9px; border-bottom:1px solid var(--border); }
+.ba { display:flex; align-items:flex-start; gap:9px; }
+.ba-n { font-size:11px; font-weight:700; color:var(--text-3); flex-shrink:0; font-variant-numeric:tabular-nums; min-width:13px; padding-top:2px; }
+.ba-t { font-size:12.5px; color:var(--text-1); flex:1; line-height:1.5; }
+.cite { font-size:10px; font-weight:500; color:var(--text-3); background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; white-space:nowrap; flex-shrink:0; align-self:flex-start; margin-top:2px; font-variant-numeric:tabular-nums; }
+
+/* ── INGEST ── */
+.ingest { display:flex; gap:8px; padding:12px 16px; }
+.ing-inp {
+  flex:1; min-width:0; padding:9px 12px; background:var(--surface-2);
+  border:1px solid var(--border); border-radius:var(--r-sm); font-family:inherit;
+  font-size:12.5px; color:var(--text-1); outline:none; transition:border-color .15s;
+}
+.ing-inp::placeholder { color:var(--text-3); }
+.ing-inp:focus { border-color:var(--brand); background:var(--surface); }
+.btn-ing {
+  padding:9px 15px; background:var(--brand); color:#fff; border:none;
+  border-radius:var(--r-sm); font-family:inherit; font-size:13px; font-weight:600;
+  cursor:pointer; white-space:nowrap; transition:opacity .15s;
+}
+.btn-ing:hover { opacity:.88; }
+
+@media (max-width:960px) {
+  .page { grid-template-columns:1fr; }
+  .cg { grid-template-columns:1fr 1fr 1fr; }
+}
+@media (max-width:600px) {
+  .cg { grid-template-columns:1fr; }
+  .cc { border-right:none; border-bottom:1px solid var(--border); }
+  .cc:last-child { border-bottom:none; }
+}
+</style>
+
+<header class="hdr">
+  <div class="logo">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+      <circle cx="15" cy="15" r="11" stroke="var(--brand)" stroke-width="1.5"/>
+      <circle cx="15" cy="15" r="6"  stroke="var(--brand)" stroke-width="1.5" opacity=".4"/>
+      <line x1="15" y1="15" x2="24.5" y2="7" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="15" cy="15" r="2.2" fill="var(--brand)"/>
+      <path d="M 4.5 15 A 10.5 10.5 0 0 1 15 4.5" stroke="var(--brand)" stroke-width="2.2" stroke-linecap="round" opacity=".22"/>
+    </svg>
+    <span class="logo-text">Client Sentiment Radar</span>
+  </div>
+  <div class="h-gap"></div>
+  <button class="eng-btn">
+    Northwind Retail · Workday HCM rollout
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="scan-pill">
+    <span class="live-dot"></span>
+    Last scan 07:02 · next 08:02
+  </div>
+  <button class="btn-brief">Brief me</button>
+</header>
+
+<div class="page">
+
+  <!-- LEFT -->
+  <div class="left">
+
+    <!-- CHART
+         Data from stub_data.RADAR.trend (W16–W21):
+         scores: [0.75, 0.52, 0.05, -0.30, -0.68, -0.35]
+         viewBox 660×240 | plot x:52→642 y:28→188 | y-center(0)=108 | scale=80px/unit
+         y = 108 - score*80
+         W1(0.75)=48  W2(0.52)=66  W3(0.05)=104  W4(-0.30)=132  W5(-0.68)=162  W6(-0.35)=136
+    -->
+    <div class="card chart-pad">
+      <div class="chart-title">Client sentiment, last 6 weeks</div>
+      <div class="chart-outer">
+        <svg class="chart-svg" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Client sentiment trend, 6 weeks. Warm start, dips sharply at Week 5 after missed migration deadline, partial recovery at Week 6.">
+
+          <!-- miss shading (centred on W5 x=524, below zero y=108) -->
+          <rect x="484" y="108" width="80" height="80" fill="rgba(200,33,26,.06)"/>
+
+          <!-- horizontal grid -->
+          <line x1="52" y1="28"  x2="642" y2="28"  stroke="var(--chart-grid)" stroke-width="1"/>
+          <line x1="52" y1="68"  x2="642" y2="68"  stroke="var(--chart-grid)" stroke-width="1"/>
+          <line x1="52" y1="108" x2="642" y2="108" stroke="var(--chart-zero)" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="52" y1="148" x2="642" y2="148" stroke="var(--chart-grid)" stroke-width="1"/>
+          <line x1="52" y1="188" x2="642" y2="188" stroke="var(--chart-grid)" stroke-width="1"/>
+
+          <!-- y-axis labels -->
+          <text x="47" y="31"  text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 1.0</text>
+          <text x="47" y="71"  text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 0.5</text>
+          <text x="47" y="111" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums"> 0.0</text>
+          <text x="47" y="151" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums">−0.5</text>
+          <text x="47" y="191" text-anchor="end" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-variant-numeric="tabular-nums">−1.0</text>
+
+          <!-- x-axis labels -->
+          <text x="52"  y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 1</text>
+          <text x="170" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 2</text>
+          <text x="288" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 3</text>
+          <text x="406" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 4</text>
+          <text x="524" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 5</text>
+          <text x="642" y="216" text-anchor="middle" font-size="11" fill="var(--text-3)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Week 6</text>
+
+          <!-- event lines -->
+          <!-- W4: status call where cutover runbook first flagged (T-3, May 7) -->
+          <line x1="406" y1="28" x2="406" y2="188" stroke="var(--chart-ev)"   stroke-width="1"   stroke-dasharray="3 3"/>
+          <!-- W5: migration deadline missed (May 19) — red -->
+          <line x1="524" y1="28" x2="524" y2="188" stroke="var(--chart-miss)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+          <!-- event labels -->
+          <text x="62" y="43" font-size="11" fill="var(--chart-ev)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Kickoff</text>
+          <line x1="57" y1="46" x2="53" y2="46" stroke="var(--chart-ev)" stroke-width="1" stroke-linecap="round"/>
+          <polygon points="53,44 49,47 53,50" fill="var(--chart-ev)"/>
+
+          <text x="294" y="42" font-size="11" fill="var(--chart-ev)" font-family="Plus Jakarta Sans,system-ui,sans-serif">Status call</text>
+
+          <text x="530" y="36" font-size="11" fill="var(--chart-miss)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="600">Migration</text>
+          <text x="530" y="49" font-size="11" fill="var(--chart-miss)" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="600">deadline missed</text>
+
+          <!-- data line -->
+          <polyline points="52,48 170,66 288,104 406,132 524,162 642,136"
+            fill="none" stroke="var(--chart-line)" stroke-width="2.2"
+            stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- data dots -->
+          <circle cx="52"  cy="48"  r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
+          <circle cx="170" cy="66"  r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
+          <circle cx="288" cy="104" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
+          <circle cx="406" cy="132" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
+          <!-- W5 is the crisis dot — filled red -->
+          <circle cx="524" cy="162" r="6" fill="var(--esc)" stroke="var(--esc)" stroke-width="2"/>
+          <circle cx="642" cy="136" r="5" fill="var(--surface)" stroke="var(--chart-line)" stroke-width="2"/>
+
+          <!-- invisible hit targets -->
+          <circle cx="52"  cy="48"  r="20" fill="transparent" class="hit" data-i="0"/>
+          <circle cx="170" cy="66"  r="20" fill="transparent" class="hit" data-i="1"/>
+          <circle cx="288" cy="104" r="20" fill="transparent" class="hit" data-i="2"/>
+          <circle cx="406" cy="132" r="20" fill="transparent" class="hit" data-i="3"/>
+          <circle cx="524" cy="162" r="20" fill="transparent" class="hit" data-i="4"/>
+          <circle cx="642" cy="136" r="20" fill="transparent" class="hit" data-i="5"/>
+        </svg>
+
+        <div class="c-tip" id="tip">
+          <div class="tt-lbl"  id="tt-wk">Week 1</div>
+          <div class="tt-sc"   id="tt-sc">+0.75</div>
+          <div class="tt-tone" id="tt-tone">Positive</div>
+          <div class="tt-n"    id="tt-n">2 client messages</div>
+        </div>
+      </div>
+      <div class="chart-legend">
+        <div class="leg-line"></div>
+        Client messages only · company replies excluded from the score
+      </div>
+    </div>
+
+    <!-- MESSAGES — most recent inbound first, one outbound shown for UI context -->
+    <div class="card">
+      <div class="sec-hdr">Client messages</div>
+
+      <!-- E-14: Dana — escalating, May 21 -->
+      <div class="msg-row">
+        <span class="chip ch-esc">Escalating</span>
+        <div class="av" style="background:#FDE8E7;color:#C8211A;">DW</div>
+        <div class="mb">
+          <div class="mb-who">Dana Whitfield <span class="mb-role">· CFO</span></div>
+          <div class="mb-subj">Thursday's steering call</div>
+          <div class="mb-q">"What the contractual position is if it is not [credible]."</div>
+        </div>
+        <div class="msg-date">May 21</div>
+      </div>
+
+      <!-- E-11: Marcus — frustrated, May 20 -->
+      <div class="msg-row">
+        <span class="chip ch-fru">Frustrated</span>
+        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
+        <div class="mb">
+          <div class="mb-who">Marcus Reyes <span class="mb-role">· Program Director</span></div>
+          <div class="mb-subj">Migration date</div>
+          <div class="mb-q">"What I need now is not reassurance, it is a dated plan I can take to Dana."</div>
+        </div>
+        <div class="msg-date">May 20</div>
+      </div>
+
+      <!-- E-17: Marcus — concerned but recovering, May 24 -->
+      <div class="msg-row">
+        <span class="chip ch-con">Concerned</span>
+        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
+        <div class="mb">
+          <div class="mb-who">Marcus Reyes <span class="mb-role">· Program Director</span></div>
+          <div class="mb-subj">Re: Recovery plan</div>
+          <div class="mb-q">"The first thing I have been able to forward to Dana without caveating it."</div>
+        </div>
+        <div class="msg-date">May 24</div>
+      </div>
+
+      <!-- T-3: Marcus — concerned, transcript turn, May 7 -->
+      <div class="msg-row">
+        <span class="chip ch-trn">Transcript</span>
+        <div class="av" style="background:#FDE9D5;color:#C25209;">MR</div>
+        <div class="mb">
+          <div class="mb-who">Marcus Reyes <span class="mb-role">· Weekly status call</span></div>
+          <div class="mb-subj">Cutover runbook</div>
+          <div class="mb-q">"We are three weeks out and my team still has not seen a cutover runbook."</div>
+        </div>
+        <div class="msg-date">May 7</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <!-- CONTACTS — 3 contacts from stub_data.RADAR.contacts -->
+    <div class="card">
+      <div class="sec-hdr">Contact temperature</div>
+      <div class="cg">
+        <!-- Dana: temperature=-0.88 → escalating -->
+        <div class="cc">
+          <div class="cc-top">
+            <div class="cav" style="background:#FDE8E7;color:#C8211A;">DW</div>
+            <div><div class="cname">Dana Whitfield</div><div class="crole">CFO</div></div>
+          </div>
+          <div class="tb"><div class="tf" style="width:90%;background:var(--esc);"></div></div>
+          <div class="tl" style="color:var(--esc);">Escalating</div>
+        </div>
+        <!-- Marcus: temperature=-0.25 → concerned -->
+        <div class="cc">
+          <div class="cc-top">
+            <div class="cav" style="background:#FDE9D5;color:#C25209;">MR</div>
+            <div><div class="cname">Marcus Reyes</div><div class="crole">Program Director</div></div>
+          </div>
+          <div class="tb"><div class="tf" style="width:52%;background:var(--con);"></div></div>
+          <div class="tl" style="color:var(--con);">Concerned</div>
+        </div>
+        <!-- Priya: temperature=+0.45 → positive -->
+        <div class="cc">
+          <div class="cc-top">
+            <div class="cav" style="background:#D1F5F0;color:#147D6F;">PN</div>
+            <div><div class="cname">Priya Nair</div><div class="crole">HR Operations Lead</div></div>
+          </div>
+          <div class="tb"><div class="tf" style="width:73%;background:var(--pos);"></div></div>
+          <div class="tl" style="color:var(--pos);">Positive</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEADLINES — from stub_data.RADAR.deadlines -->
+    <div class="card">
+      <div class="sec-hdr">Deadlines and risks</div>
+      <div class="dl-list">
+        <!-- D-1: missed — red -->
+        <div class="dl-row">
+          <div class="dl-dot" style="background:var(--esc);"></div>
+          <div class="dl-txt"><strong>Payroll data migration</strong><span class="dl-meta"> · due May 19 · missed · 3 mentions</span></div>
+        </div>
+        <!-- D-2: at risk — amber -->
+        <div class="dl-row">
+          <div class="dl-dot" style="background:var(--con);"></div>
+          <div class="dl-txt"><strong>Phase 1 go-live</strong><span class="dl-meta"> · due Jun 15 · at risk · 3 mentions</span></div>
+        </div>
+        <!-- D-3: on track — grey -->
+        <div class="dl-row">
+          <div class="dl-dot" style="background:var(--text-3);"></div>
+          <div class="dl-txt"><strong>Parallel payroll run</strong><span class="dl-meta"> · due Jun 1 · on track · 0 mentions</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRIEF — from stub_data.BRIEF -->
+    <div class="card">
+      <div class="brf-hdr">
+        <span class="brf-title">Monday brief</span>
+        <span class="brf-badge">Generated 07:02</span>
+      </div>
+      <div class="brf-sum">
+        Northwind has gone from warm to escalating in three weeks, and the trigger is a single missed date. The May 19 payroll migration slipped after Marcus flagged the earning-code gap on April 28 and again on the May 7 call; he escalated on May 20, and Dana Whitfield has now pulled her COO into Thursday's steering call and asked about the contractual position on the June 15 go-live. The recovery plan has partially stabilised Marcus, but Dana has not softened and is the relationship to repair.
+      </div>
+      <div class="brf-acts">
+        <div class="ba">
+          <span class="ba-n">1.</span>
+          <span class="ba-t">Send Dana a written go-live assessment before Thursday that answers the credibility question directly rather than defending the slip.</span>
+          <span class="cite">E-14</span>
+        </div>
+        <div class="ba">
+          <span class="ba-n">2.</span>
+          <span class="ba-t">Call Marcus to confirm Thursday is a working session, and bring the dated cutover plan he asked for twice.</span>
+          <span class="cite">E-11, E-17</span>
+        </div>
+        <div class="ba">
+          <span class="ba-n">3.</span>
+          <span class="ba-t">Close out the two unmapped legacy earning codes this week — they are the root of the missed date and are still open.</span>
+          <span class="cite">E-5</span>
+        </div>
+      </div>
+      <div class="ingest">
+        <input class="ing-inp" type="text" id="ingestInput" placeholder="Paste a new client email to score it…" aria-label="Paste a client email to score">
+        <button class="btn-ing" id="ingestBtn">Ingest</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  // chart tooltip data — matches stub_data.RADAR.trend
+  const pts = [
+    { week:'Week 1 (W16)', score:'+0.75', tone:'Positive',   col:'#147D6F', n:2, cx:52,  cy:48  },
+    { week:'Week 2 (W17)', score:'+0.52', tone:'Positive',   col:'#147D6F', n:3, cx:170, cy:66  },
+    { week:'Week 3 (W18)', score:'+0.05', tone:'Neutral',    col:'#9AA3B2', n:4, cx:288, cy:104 },
+    { week:'Week 4 (W19)', score:'−0.30', tone:'Concerned',  col:'#B45309', n:3, cx:406, cy:132 },
+    { week:'Week 5 (W20)', score:'−0.68', tone:'Escalating', col:'#C8211A', n:5, cx:524, cy:162 },
+    { week:'Week 6 (W21)', score:'−0.35', tone:'Concerned',  col:'#B45309', n:4, cx:642, cy:136 },
+  ];
+
+  const tip    = document.getElementById('tip');
+  const ttWk   = document.getElementById('tt-wk');
+  const ttSc   = document.getElementById('tt-sc');
+  const ttTone = document.getElementById('tt-tone');
+  const ttN    = document.getElementById('tt-n');
+  const svgEl  = document.querySelector('.chart-svg');
+  const outer  = document.querySelector('.chart-outer');
+
+  document.querySelectorAll('.hit').forEach(el => {
+    const i = +el.dataset.i;
+    el.style.cursor = 'crosshair';
+    el.addEventListener('mouseenter', () => {
+      const d = pts[i];
+      ttWk.textContent   = d.week;
+      ttSc.textContent   = d.score;
+      ttTone.textContent = d.tone;
+      ttTone.style.color = d.col;
+      ttN.textContent    = d.n + ' client message' + (d.n !== 1 ? 's' : '');
+
+      const svgR = svgEl.getBoundingClientRect();
+      const outR = outer.getBoundingClientRect();
+      const sx = svgR.width / 660, sy = svgR.height / 240;
+      let left = (d.cx * sx) + (svgR.left - outR.left);
+      let top  = (d.cy * sy) + (svgR.top  - outR.top) - 90;
+      if (left + 150 > outR.width) left -= 150;
+      if (top < 0) top += 112;
+
+      tip.style.left = left + 'px';
+      tip.style.top  = top  + 'px';
+      tip.classList.add('show');
+    });
+    el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+  });
+
+  // Brief me scrolls to brief
+  document.querySelector('.btn-brief').addEventListener('click', () => {
+    document.querySelector('.brf-hdr').closest('.card')
+      .scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+
+  // Ingest stub — echoes back until backend is live
+  document.getElementById('ingestBtn').addEventListener('click', () => {
+    const inp  = document.getElementById('ingestInput');
+    const text = inp.value.trim();
+    if (!text) { inp.focus(); return; }
+    const preview = text.length > 100 ? text.slice(0, 100) + '…' : text;
+    alert('Scoring:\n"' + preview + '"\n\n(Connect to POST /ingest for live scoring)');
+    inp.value = '';
+  });
+})();
+</script>
