@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "client-sentiment-radar": {
+      "command": "./backend/venv/bin/python",
+      "args": [
+        "./plugin/server.py"
+      ],
+      "env": {
+        "RADAR_API_BASE": "https://client-sentiment-radar.onrender.com"
+      }
+    }
+  }
+}
